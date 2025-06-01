@@ -3,7 +3,7 @@ import 'dart:io';
 
 class Quiz {
   final Map<String, String> quiz = {
-    'zero': 'fuji',
+    'パンはパンでも食べられないパンは': 'fuji',
     'iti': 'taka',
     'ni': 'nasubi',
     'san': 'tsukune',
@@ -39,10 +39,11 @@ class Quiz {
     var randomKey = keys[randomIndex];
     var randomValue = values[randomIndex];
 
-    print("randomkey is $randomKey:");
     opt_nums.add(randomIndex);
     opt_nums.shuffle();
 
+    //回答候補4つのList=opt_answers
+    //問題4つのList=opt_questions
     List<String> opt_questions = [];
     List<String> opt_answers = [];
     for (int i = 0; i < option_num; i++) {
@@ -51,14 +52,14 @@ class Quiz {
     }
 
     print("question:what is $randomKey ?");
-    print("opt_questions : $opt_questions");
-    print("opt_answers : $opt_answers");
+    print("options : $opt_answers");
 
     String? user_ans = stdin.readLineSync();
     final user_ans_int = int.tryParse(user_ans ?? '');
 
     final correct_ans_int = opt_answers.indexOf(randomValue);
 
+    //"0-order index" of options will be answer
     if (user_ans_int == correct_ans_int) {
       print("correct!!!!!!!!!!");
     } else {

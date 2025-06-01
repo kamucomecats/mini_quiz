@@ -3,14 +3,14 @@ import 'dart:io';
 
 class Quiz {
   final Map<String, String> quiz = {
-    'パンはパンでも食べられないパンは': 'fuji',
-    'iti': 'taka',
-    'ni': 'nasubi',
-    'san': 'tsukune',
-    'yon': 'nara',
-    'go': 'kyoto',
-    'roku': 'saga',
-    'sichi': 'hakodate',
+    '俺が今食べたいものは': '唐揚げ',
+    '夏の旬といえば': 'スイカ',
+    'あなたの好物': 'コロッケ',
+    '寒いときにおいしい': 'おでん',
+    '家のは格別な': 'ホイル焼き',
+    'たまに食べたい': 'ちまき',
+    '食べ物の王様': 'カレー',
+    '週3で食べたい': 'ホットドッグ',
   };
 
   void randQuiz() {
@@ -51,7 +51,7 @@ class Quiz {
       opt_answers.add(values[opt_nums[i]]);
     }
 
-    print("question:what is $randomKey ?");
+    print(randomKey);
     print("options : $opt_answers");
 
     String? user_ans = stdin.readLineSync();
@@ -59,12 +59,12 @@ class Quiz {
 
     final correct_ans_int = opt_answers.indexOf(randomValue);
 
-    //"0-order index" of options will be answer
+    //0-order index of option will be answer
     if (user_ans_int == correct_ans_int) {
       print("correct!!!!!!!!!!");
     } else {
       print("wrong!!!!!!!");
-      print("correct is $correct_ans_int");
+      print("correct is $randomValue");
     }
     return;
   }

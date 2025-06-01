@@ -13,15 +13,13 @@ class Quiz {
     '週3で食べたい': 'ホットドッグ',
   };
 
-  void randQuiz() {
-    var random = Random();
-    int option_num = 4;
+  void randQuiz(int ques_num) {
+    const option_num = 4;
 
     final keys = quiz.keys.toList();
     final values = quiz.values.toList();
-    final randomIndex = random.nextInt(quiz.length);
-    final candidates = List.generate(quiz.length, (i) => i)
-      ..remove(randomIndex);
+
+    final candidates = List.generate(quiz.length, (i) => i)..remove(ques_num);
 
     List opt_nums = [];
 
@@ -33,13 +31,14 @@ class Quiz {
 
     //問題文=randomKey
     //正答=word
-    //正答のindex=randomIndex
+    //正答のindex=ques_num
     //誤答のindex=opt_nums
 
-    var randomKey = keys[randomIndex];
-    var randomValue = values[randomIndex];
+    var randomKey = keys[ques_num];
+    var randomValue = values[ques_num];
 
-    opt_nums.add(randomIndex);
+    //add correct_int to dummy_int List to generate options
+    opt_nums.add(ques_num);
     opt_nums.shuffle();
 
     //回答候補4つのList=opt_answers
@@ -55,12 +54,12 @@ class Quiz {
     print("options : $opt_answers");
 
     String? user_ans = stdin.readLineSync();
-    final user_ans_int = int.tryParse(user_ans ?? '');
+    final user_ans_int = int.tryParse(user_ans ?? '-1');
 
     final correct_ans_int = opt_answers.indexOf(randomValue);
 
-    //0-order index of option will be answer
-    if (user_ans_int == correct_ans_int) {
+    //1-order index of option will be answer
+    if ((user_ans_int! - 1) == correct_ans_int) {
       print("correct!!!!!!!!!!");
     } else {
       print("wrong!!!!!!!");
@@ -68,11 +67,32 @@ class Quiz {
     }
     return;
   }
+
+  void loopQuiz() {
+    const looptime = 5;
+
+    List<int> question_nums = [];
+
+    for (int i = 0; i < looptime; i++) {
+      question_nums.add(i);
+    }
+    question_nums.shuffle();
+
+    List<int> question_nums_little = [];
+    question_nums_little.addAll(question_nums.take(looptime));
+
+    for (int i = 0; i < looptime; i++) {
+      print("question${i + 1}");
+      randQuiz(question_nums_little[i]);
+    }
+
+    print("finish!");
+  }
 }
 
 void main() {
   var x;
   x = Quiz();
-  x.randQuiz();
+  x.loopQuiz();
   return;
 }

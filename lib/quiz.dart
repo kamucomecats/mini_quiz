@@ -2,23 +2,45 @@ import 'dart:math';
 
 class Quiz {
   Map<String, String> quiz = {
-    'iti': 'fuji',
-    'ni': 'taka',
-    'san': 'nasubi',
+    '0': 'fuji',
+    '1': 'taka',
+    '2': 'nasubi',
+    '3': 'tsukune',
+    '4': 'nara',
+    '5': 'kyoto',
+    '6': 'saga',
+    '7': 'hakodate',
   };
 
-  String getquiz() {
+  void getquiz() {
     var random = Random();
+    int option_num = 4;
 
     final keys = quiz.keys.toList();
-    final randomKey = keys[random.nextInt(keys.length)];
+    final correct = random.nextInt(keys.length);
+    final candidates = List.generate(keys.length, (i) => i)..remove(correct);
 
+    candidates.shuffle();
+
+    final dammy;
+
+    if (option_num > 1) {
+      dammy = candidates.take(option_num - 1);
+    } else {
+      return;
+    }
+
+    var randomKey = keys[correct];
+    print("randomkey is ${randomKey}:");
+    print(dammy);
     String word = quiz[randomKey]!;
-    return word;
+    print(word);
+    return;
   }
 }
 
 void main() {
-  var quiz1 = Quiz();
-  print(quiz1.getquiz());
+  var x;
+  x = Quiz();
+  x.getquiz();
 }

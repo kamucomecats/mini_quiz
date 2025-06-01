@@ -3,14 +3,14 @@ import 'dart:io';
 
 class Quiz {
   final Map<String, String> quiz = {
-    '0': 'fuji',
-    '1': 'taka',
-    '2': 'nasubi',
-    '3': 'tsukune',
-    '4': 'nara',
-    '5': 'kyoto',
-    '6': 'saga',
-    '7': 'hakodate',
+    'zero': 'fuji',
+    'iti': 'taka',
+    'ni': 'nasubi',
+    'san': 'tsukune',
+    'yon': 'nara',
+    'go': 'kyoto',
+    'roku': 'saga',
+    'sichi': 'hakodate',
   };
 
   void randQuiz() {
@@ -18,32 +18,52 @@ class Quiz {
     int option_num = 4;
 
     final keys = quiz.keys.toList();
-    final randomIndex = random.nextInt(keys.length);
-    final candidates = List.generate(keys.length, (i) => i)
+    final values = quiz.values.toList();
+    final randomIndex = random.nextInt(quiz.length);
+    final candidates = List.generate(quiz.length, (i) => i)
       ..remove(randomIndex);
 
-    candidates.shuffle();
-
-    final dummy;
+    List opt_nums = [];
 
     if (option_num > 1) {
-      dummy = candidates.take(option_num - 1);
+      opt_nums.addAll(candidates.take(option_num - 1));
     } else {
       return;
     }
 
-    var randomKey = keys[randomIndex];
-    print("randomkey is $randomKey:");
-    print(dummy);
-    String word = quiz[randomKey]!;
-    print(word);
-    print("question:what is $randomKey ?");
-    String? user_ans = stdin.readLineSync();
+    //問題文=randomKey
+    //正答=word
+    //正答のindex=randomIndex
+    //誤答のindex=opt_nums
 
-    if (user_ans == word) {
+    var randomKey = keys[randomIndex];
+    var randomValue = values[randomIndex];
+
+    print("randomkey is $randomKey:");
+    opt_nums.add(randomIndex);
+    opt_nums.shuffle();
+
+    List<String> opt_questions = [];
+    List<String> opt_answers = [];
+    for (int i = 0; i < option_num; i++) {
+      opt_questions.add(keys[opt_nums[i]]);
+      opt_answers.add(values[opt_nums[i]]);
+    }
+
+    print("question:what is $randomKey ?");
+    print("opt_questions : $opt_questions");
+    print("opt_answers : $opt_answers");
+
+    String? user_ans = stdin.readLineSync();
+    final user_ans_int = int.tryParse(user_ans ?? '');
+
+    final correct_ans_int = opt_answers.indexOf(randomValue);
+
+    if (user_ans_int == correct_ans_int) {
       print("correct!!!!!!!!!!");
     } else {
       print("wrong!!!!!!!");
+      print("correct is $correct_ans_int");
     }
     return;
   }

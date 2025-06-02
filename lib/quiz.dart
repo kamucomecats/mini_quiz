@@ -75,19 +75,26 @@ class Quiz {
   }
 
   void quizController() {
+    //問題数
+    //question size
     const looptime = 5;
 
     mapToList(quiz);
     List<int> question_nums = [];
 
+    //decide what to ask
+    //generate looptime-sized arange shuffled(= index to refer quiz-list)
     for (int i = 0; i < looptime; i++) {
       question_nums.add(i);
     }
     question_nums.shuffle();
 
+    //generate index-list
+    //resize to question size and generate question number list
     List<int> question_nums_little = [];
     question_nums_little.addAll(question_nums.take(looptime));
 
+    //only refer to quiz-list using generated index-list
     for (int i = 0; i < looptime; i++) {
       print("question${i + 1}");
       randQuiz(question_nums_little[i]);

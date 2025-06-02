@@ -13,11 +13,17 @@ class Quiz {
     '週3で食べたい': 'ホットドッグ',
   };
 
+  List keys = [];
+  List values = [];
+
+  void mapToList(quiz) {
+    keys = quiz.keys.toList();
+    values = quiz.values.toList();
+    return;
+  }
+
   void randQuiz(int ques_num) {
     const option_num = 4;
-
-    final keys = quiz.keys.toList();
-    final values = quiz.values.toList();
 
     final candidates = List.generate(quiz.length, (i) => i)..remove(ques_num);
 
@@ -30,10 +36,8 @@ class Quiz {
     }
 
     //問題文=randomKey
-    //正答=word
     //正答のindex=ques_num
     //誤答のindex=opt_nums
-
     var randomKey = keys[ques_num];
     var randomValue = values[ques_num];
 
@@ -50,9 +54,11 @@ class Quiz {
       opt_answers.add(values[opt_nums[i]]);
     }
 
+    //問題文と選択肢4つ出力
     print(randomKey);
     print("options : $opt_answers");
 
+    //read
     String? user_ans = stdin.readLineSync();
     final user_ans_int = int.tryParse(user_ans ?? '-1');
 
@@ -68,9 +74,10 @@ class Quiz {
     return;
   }
 
-  void loopQuiz() {
+  void quizController() {
     const looptime = 5;
 
+    mapToList(quiz);
     List<int> question_nums = [];
 
     for (int i = 0; i < looptime; i++) {
@@ -93,6 +100,6 @@ class Quiz {
 void main() {
   var x;
   x = Quiz();
-  x.loopQuiz();
+  x.quizController();
   return;
 }

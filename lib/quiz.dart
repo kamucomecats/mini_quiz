@@ -22,27 +22,24 @@ class Quiz {
     return;
   }
 
-  void randQuiz(int ques_num) {
+  void makeQuiz(int ans_num) {
     const option_num = 4;
 
-    final candidates = List.generate(quiz.length, (i) => i)..remove(ques_num);
+    final candidates = List.generate(quiz.length, (i) => i)..remove(ans_num);
 
     List opt_nums = [];
 
-    if (option_num > 1) {
-      opt_nums.addAll(candidates.take(option_num - 1));
-    } else {
-      return;
-    }
+    opt_nums.addAll(candidates.take(option_num - 1));
 
     //問題文=randomKey
-    //正答のindex=ques_num
+    //正答のindex=ans_num
     //誤答のindex=opt_nums
-    var randomKey = keys[ques_num];
-    var randomValue = values[ques_num];
+    mapToList(quiz);
+    var randomKey = keys[ans_num];
+    var randomValue = values[ans_num];
 
     //add correct_int to dummy_int List to generate options
-    opt_nums.add(ques_num);
+    opt_nums.add(ans_num);
     opt_nums.shuffle();
 
     //回答候補4つのList=opt_answers
@@ -67,37 +64,35 @@ class Quiz {
     //1-order index of option will be answer
     if ((user_ans_int! - 1) == correct_ans_int) {
       print("correct!!!!!!!!!!");
-    } else {
-      print("wrong!!!!!!!");
-      print("correct is $randomValue");
+      return;
     }
+    print("wrong!!!!!!!");
+    print("correct is $randomValue");
     return;
+  }
+
+  //generate answers from size
+  List rand_ans(int size) {
+    List ans_list = [];
+    for (int i = 0; i < quiz.length; i++) {
+      ans_list.add(i);
+    }
+    ans_list.shuffle();
+    ans_list.addAll(ans_list.take(size));
+    return ans_list;
   }
 
   void quizController() {
     //問題数
-    //question size
-    const looptime = 5;
+    //ans size
+    const ans_size = 5;
 
-    mapToList(quiz);
-    List<int> question_nums = [];
-
-    //decide what to ask
-    //generate looptime-sized arange shuffled(= index to refer quiz-list)
-    for (int i = 0; i < looptime; i++) {
-      question_nums.add(i);
-    }
-    question_nums.shuffle();
-
-    //generate index-list
-    //resize to question size and generate question number list
-    List<int> question_nums_little = [];
-    question_nums_little.addAll(question_nums.take(looptime));
+    final ans_list = rand_ans(ans_size);
 
     //only refer to quiz-list using generated index-list
-    for (int i = 0; i < looptime; i++) {
+    for (int i = 0; i < ans_size; i++) {
       print("question${i + 1}");
-      randQuiz(question_nums_little[i]);
+      makeQuiz(ans_list[i]);
     }
 
     print("finish!");
@@ -105,8 +100,7 @@ class Quiz {
 }
 
 void main() {
-  var x;
-  x = Quiz();
+  var x = Quiz();
   x.quizController();
   return;
 }

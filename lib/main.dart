@@ -1,6 +1,7 @@
+import 'dart:math';
+
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -15,10 +16,10 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Mini_quiz',
+        title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
         home: MyHomePage(),
       ),
@@ -28,181 +29,122 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
-
-  var favorites = <WordPair>[];
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
-  }
 }
 
-// ...
-
-class MyHomePage extends StatefulWidget {
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  var selectedIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    Widget page;
-    switch (selectedIndex) {
-      case 0:
-        page = GeneratorPage();
-        break;
-      case 1:
-        page = FavoritesPage();
-        break;
-      default:
-        throw UnimplementedError('no widget for $selectedIndex');
-    }
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        body: Row(
-          children: [
-            SafeArea(
-              child: NavigationRail(
-                extended: constraints.maxWidth >= 600,
-                destinations: [
-                  NavigationRailDestination(
-                    icon: Icon(Icons.home),
-                    label: Text('Home'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.favorite),
-                    label: Text('Favorites'),
-                  ),
-                ],
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
-                },
-              ),
-            ),
-            Expanded(
-              child: Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                child: page,
-              ),
-            ),
-          ],
-        ),
-      );
-    });
-  }
-}
-
-class GeneratorPage extends StatelessWidget {
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var pair = appState.current;
 
-    IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
-    } else {
-      icon = Icons.favorite_border;
-    }
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      body: Column(
         children: [
-          BigCard(pair: pair),
-          SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  appState.toggleFavorite();
-                },
-                icon: Icon(icon),
-                label: Text('Like'),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: Text('Next'),
-              ),
-            ],
-          ),
+          Text('A random idea:'),
+          Text(appState.current.asLowerCase),
+          ElevatedButton(
+              onPressed: () {
+                print('button pressed!');
+              },
+              child: Text('next'))
         ],
       ),
     );
   }
 }
 
-class FavoritesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
-    if (appState.favorites.isEmpty) {
-      return Center(
-        child: Text('No favorites yet.'),
-      );
-    }
-
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text('You have '
-              '${appState.favorites.length} favorites:'),
-        ),
-        for (var pair in appState.favorites)
-          ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text(pair.asLowerCase),
-          ),
-      ],
-    );
-  }
+class Questions {
+  final Map<String, String> quizMap = {
+    'ringo': 'apple',
+    'mikan': 'orange',
+    'misosiru': 'soup',
+    'megane': 'glasses',
+  };
 }
 
-class BigCard extends StatelessWidget {
-  const BigCard({
-    super.key,
-    required this.pair,
-  });
+//first bring key-list
+//make ans-list
+//ans-list[]->get-answer->get-dummyでindexを4つそろえる
+//ans->question->option
+//dummy->option
+//という流れにするか、保守性でもっと簡単な動きにする
 
-  final WordPair pair;
+//mapToList生成 called only once and make Map easy to access
+//ans-list生成　void->list<int>A
+//index(including dummy)生成     List<int>A[]->List<List<int>>B
+//question生成  List<int>A[]->List<String>C
+//option生成    List<List<int>>B[]->List(List<String>>D (contains dummy-options)
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
-    );
+class Quiz {
+  //copy questions map
+  final quizMap = Questions().quizMap;
+  final size = 3; //length of quiz
 
-    return Card(
-      color: theme.colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Text(
-          pair.asLowerCase,
-          style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
-        ),
-      ),
-    );
+  late final keys = mapToList(quizMap);
+  late final ansList = geneAns(size);
+  late final indexList = geneIndexList(ansList);
+  late final questionList = geneQuestion(ansList, keys);
+  late final option = geneOption(indexList, keys);
+
+  String getQuestion() {
+    var random = Random();
+    var randomIndex = random.nextInt(quizMap.length);
+    var keys = mapToList(quizMap);
+    return quizMap[keys[randomIndex]]!;
+  }
+
+  List<int> geneAns(int size) {
+    List<int> ansList = List.generate(quizMap.length, (i) => i);
+    ansList.shuffle();
+    var result = ansList.take(size).toList();
+    return result;
+  }
+
+  //generate 4 options
+  //(4つ選択肢のリスト)のリストをint(問題番号)で返す
+  List<List<int>> geneIndexList(List<int> ansList) {
+    List<List<int>> result = [];
+    for (int j = 0; j < ansList.length; j++) {
+      List<int> resultMini = [];
+      var indexList = List.generate(quizMap.length, (i) => i)
+        ..remove(ansList[j]);
+
+      //shuffle and get 3 options
+      indexList.shuffle();
+      resultMini.add(ansList[j]);
+      resultMini.addAll(indexList.take(3).toList());
+      resultMini.shuffle();
+      result.add(resultMini);
+    }
+    return result;
+  }
+
+  List<String> geneQuestion(List<int> ansList, List<String> keys) {
+    List<String> result = [];
+    for (int i = 0; i < size; i++) {
+      result.add(keys[ansList[i]]);
+    }
+    return result;
+  }
+
+  List<List<String>> geneOption(List<List<int>> indexList, List<String> keys) {
+    List<List<String>> result = [];
+    for (int i = 0; i < size; i++) {
+      List<String> resultMini = [];
+      for (int j = 0; j < 4; j++) {
+        resultMini.add(keys[indexList[i][j]]);
+      }
+      result.add(resultMini);
+    }
+    return result;
+  }
+
+  //be called once
+  List<String> mapToList(Map<String, String> map) {
+    List<String> keys = map.keys.toList();
+    return keys;
+  }
+
+  String indexToKey(int i) {
+    return 'ringo';
   }
 }

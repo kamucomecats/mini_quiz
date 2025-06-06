@@ -78,12 +78,26 @@ class Quiz {
   //copy questions map
   final quizMap = Questions().quizMap;
   final size = 3; //length of quiz
-
+  
+  //first bring key-list
   late final keys = mapToList(quizMap);
+
+  //make ans-list
   late final ansList = geneAns(size);
+
+  //ans-list->generate 4-options-list
   late final indexList = geneIndexList(ansList);
+
+  //ans-list->generate String version (=questionList)
   late final questionList = geneQuestion(ansList, keys);
+
+  //4-options-list->generate String version(=option)
   late final option = geneOption(indexList, keys);
+
+  //questionListは問題文の List<String>
+  //optionは選択肢の List<List<String>>
+  //重複なしでN個問題を生成したら、
+  //n/N問目としてappStateに保持するという構想
 
   String getQuestion() {
     var random = Random();

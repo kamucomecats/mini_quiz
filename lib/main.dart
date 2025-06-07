@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:english_words/english_words.dart';
@@ -42,6 +43,11 @@ class MyAppState extends ChangeNotifier {
     options = quiz.getNextOptions();
     quiz.increment();
     notifyListeners();
+  }
+
+  void sendUserIndex(int index) {
+    var seikai = quiz.gudge(index, mondai, options);
+    quiz.historyUpdate(index, mondai, options, seikai);
   }
 }
 
@@ -135,6 +141,8 @@ class Option extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
             onPressed: () {
+              //userIndexは絶対先!!
+              appState.sendUserIndex(index);
               appState.getNext();
             },
             child: FittedBox(
@@ -160,7 +168,18 @@ class Quiz {
   }
 
   final Map<String, String> quiz = {
-    '私は学校に走ります。': 'Ich laufe zur Schule.',
+    '1': 'one',
+    '2': 'two',
+    '3': 'three',
+    '4': 'four',
+    '5': 'five',
+    '6': 'six',
+    '7': 'seven',
+    '8': 'eight',
+    '9': 'nine',
+  };
+
+  /*  '私は学校に走ります。': 'Ich laufe zur Schule.',
     '私の趣味は女装です。': 'Mein Hobby ist Cross-Dressing.',
     '私は東京出身です。': 'Ich komme aus Tokio.',
     '私の職業は料理人です。': 'Mein Beruf ist Koch.',
@@ -169,10 +188,36 @@ class Quiz {
     '私は財布を探しています。': 'Ich suche meine Brieftasche.',
     '私は電車を待っています。': 'Ich warte auf einen Zug.',
     '私は彼に怒っています。': 'Ich bin wütend auf ihn.',
-    '私は風邪をひいています。': 'Ich habe eine Erkältung.',
-  };
+    '私は風邪をひいています。': 'Ich habe eine Erkältung.',*/
 
-  List<List<int>> history = [];
+  //0-dim is quizIndex
+  //1-dim is recent correct ans rate(10 times)
+  List<List<int>> seigoHyo = [];
+
+  Queue<Map<String, List<String>>> quizHistory = Queue();
+  Queue<bool> seikaiHistory = Queue();
+  final quizHistoryMax = 100;
+
+  bool gudge(int userAns, String mondai, List<String> options) {
+    var countPrevious = count - 1;
+    if (countPrevious == -1) countPrevious = size - 1;
+
+    if (quiz[mondai] == options[userAns]) {
+      return true;
+    }
+    return false;
+  }
+
+  void historyUpdate(
+      int userAns, String mondai, List<String> options, bool seikai) {
+    if (quizHistory.length >= quizHistoryMax) {
+      quizHistory.removeLast();
+      seikaiHistory.removeLast();
+    }
+    quizHistory.addFirst({mondai: options});
+    seikaiHistory.addFirst(seikai);
+    print(seikaiHistory);
+  }
 
   List keys = [];
   List values = [];
@@ -230,9 +275,7 @@ class Quiz {
 
       randValuesIndex.add(candidates.take(optionsNum - 1).toList());
       randValuesIndex[i].add(randKeysIndex[i]);
-      print(randValuesIndex[i]);
       randValuesIndex[i].shuffle();
-      print(randValuesIndex[i]);
     }
     randValues = [];
     for (int i = 0; i < size; i++) {

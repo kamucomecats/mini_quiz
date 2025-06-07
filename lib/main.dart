@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Namer App',
+        title: 'Mini_quiz',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         ),
         home: MyHomePage(),
       ),
@@ -28,7 +28,22 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
+  final quiz = Quiz();
+
+  String mondai = '';
+  List<String> options = [];
+
+  MyAppState() {
+    getNext();
+  }
+
+  void getNext() {
+    mondai = quiz.getNextMondai();
+    options = quiz.getNextOptions();
+    quiz.increment();
+    notifyListeners();
+    print(mondai);
+  }
 }
 
 class MyHomePage extends StatelessWidget {
@@ -37,128 +52,138 @@ class MyHomePage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
 
     return Scaffold(
-      body: Column(
-        children: [
-          Text('A random idea:'),
-          Text(appState.current.asLowerCase),
-          ElevatedButton(
-              onPressed: () {
-                print('button pressed!');
-              },
-              child: Text('next'))
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('A random AAAAAAAAA idea:'),
+            Question(appState: appState),
+            ElevatedButton(
+                onPressed: () {
+                  appState.getNext();
+                  print('button pressed!');
+                },
+                child: Text('next'))
+          ],
+        ),
       ),
     );
   }
 }
 
-class Questions {
-  final Map<String, String> quizMap = {
-    'ringo': 'apple',
-    'mikan': 'orange',
-    'misosiru': 'soup',
-    'megane': 'glasses',
-  };
+class Question extends StatelessWidget {
+  const Question({
+    super.key,
+    required this.appState,
+  });
+
+  final MyAppState appState;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    return Card(
+      color: theme.colorScheme.primary,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Text(
+          appState.mondai,
+          style: style,
+        ),
+      ),
+    );
+  }
 }
 
-//first bring key-list
-//make ans-list
-//ans-list[]->get-answer->get-dummyでindexを4つそろえる
-//ans->question->option
-//dummy->option
-//という流れにするか、保守性でもっと簡単な動きにする
-
-//mapToList生成 called only once and make Map easy to access
-//ans-list生成　void->list<int>A
-//index(including dummy)生成     List<int>A[]->List<List<int>>B
-//question生成  List<int>A[]->List<String>C
-//option生成    List<List<int>>B[]->List(List<String>>D (contains dummy-options)
+//外部から見たら、getNextするだけでとにかくStringが返ってくるのが理想
+//外から呼ぶものを1つに絞る
+//呼ばれるのはgetNextMondai()、getNextOptions()、increment()
+//3つにしたのは外で扱いやすいと思ったから!
+//3つは出題のたびに必ず、同時に、一度に呼ぶ
 
 class Quiz {
-  //copy questions map
-  final quizMap = Questions().quizMap;
-  final size = 3; //length of quiz
-  
-  //first bring key-list
-  late final keys = mapToList(quizMap);
-
-  //make ans-list
-  late final ansList = geneAns(size);
-
-  //ans-list->generate 4-options-list
-  late final indexList = geneIndexList(ansList);
-
-  //ans-list->generate String version (=questionList)
-  late final questionList = geneQuestion(ansList, keys);
-
-  //4-options-list->generate String version(=option)
-  late final option = geneOption(indexList, keys);
-
-  //questionListは問題文の List<String>
-  //optionは選択肢の List<List<String>>
-  //重複なしでN個問題を生成したら、
-  //n/N問目としてappStateに保持するという構想
-
-  String getQuestion() {
-    var random = Random();
-    var randomIndex = random.nextInt(quizMap.length);
-    var keys = mapToList(quizMap);
-    return quizMap[keys[randomIndex]]!;
+  Quiz() {
+    mapToList(quiz);
+    update();
   }
 
-  List<int> geneAns(int size) {
-    List<int> ansList = List.generate(quizMap.length, (i) => i);
-    ansList.shuffle();
-    var result = ansList.take(size).toList();
-    return result;
+  final Map<String, String> quiz = {
+    '俺が今食べたいものは': '唐揚げ',
+    '夏の旬といえば': 'スイカ',
+    'あなたの好物': 'コロッケ',
+    '寒いときにおいしい': 'おでん',
+    '家のは格別な': 'ホイル焼き',
+    'たまに食べたい': 'ちまき',
+    '食べ物の王様': 'カレー',
+    '週3で食べたい': 'ホットドッグ',
+  };
+
+  List keys = [];
+  List values = [];
+
+  //make keys and values
+  void mapToList(quiz) {
+    keys = quiz.keys.toList();
+    values = quiz.values.toList();
+    return;
   }
 
-  //generate 4 options
-  //(4つ選択肢のリスト)のリストをint(問題番号)で返す
-  List<List<int>> geneIndexList(List<int> ansList) {
-    List<List<int>> result = [];
-    for (int j = 0; j < ansList.length; j++) {
-      List<int> resultMini = [];
-      var indexList = List.generate(quizMap.length, (i) => i)
-        ..remove(ansList[j]);
+  var size = 5;
+  var count = 0;
+  final optionsNum = 4;
 
-      //shuffle and get 3 options
-      indexList.shuffle();
-      resultMini.add(ansList[j]);
-      resultMini.addAll(indexList.take(3).toList());
-      resultMini.shuffle();
-      result.add(resultMini);
+  //randKeysのあとで呼ぶ
+  String getNextMondai() {
+    return randKeys[count];
+  }
+
+  //randKeysのあとで呼ぶ
+  List<String> getNextOptions() {
+    return randValues[count];
+  }
+
+  //count進数制御、update
+  void increment() {
+    count++;
+    if (count >= size) {
+      count = 0;
+      update();
     }
-    return result;
   }
 
-  List<String> geneQuestion(List<int> ansList, List<String> keys) {
-    List<String> result = [];
+  List<String> randKeys = [];
+  List<List<String>> randValues = [];
+
+  //randKeys and randOptions update
+  void update() {
+    //randKeyUpdate
+    var randKeysIndex = List.generate(quiz.length, (i) => i).toList();
+    randKeysIndex.shuffle();
+    randKeysIndex = randKeysIndex.take(size).toList();
+    randKeys = [];
     for (int i = 0; i < size; i++) {
-      result.add(keys[ansList[i]]);
+      randKeys.add(keys[randKeysIndex[i]]);
     }
-    return result;
-  }
 
-  List<List<String>> geneOption(List<List<int>> indexList, List<String> keys) {
-    List<List<String>> result = [];
+    //randOptionsUpdate
+    var randValuesIndex = [];
     for (int i = 0; i < size; i++) {
-      List<String> resultMini = [];
-      for (int j = 0; j < 4; j++) {
-        resultMini.add(keys[indexList[i][j]]);
+      var candidates = List.generate(quiz.length, (i) => i).toList()
+        ..remove(randKeysIndex[i]);
+      randValuesIndex.add(candidates.take(optionsNum - 1).toList());
+    }
+    randValues = [];
+    for (int i = 0; i < size; i++) {
+      List<String> randValuesMini = [];
+      for (int j = 0; j < randValuesIndex[i].length; j++) {
+        randValuesMini.add(values[randValuesIndex[i][j]]);
       }
-      result.add(resultMini);
+      randValues.add(randValuesMini);
     }
-    return result;
-  }
-
-  //be called once
-  List<String> mapToList(Map<String, String> map) {
-    List<String> keys = map.keys.toList();
-    return keys;
-  }
-
-  String indexToKey(int i) {
-    return 'ringo';
+    return;
   }
 }

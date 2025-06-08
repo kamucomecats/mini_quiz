@@ -31,8 +31,12 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {
   final quiz = Quiz();
 
-  String mondai = '';
-  List<String> options = [];
+  String mondai = ''; //問題文
+  List<String> options = []; //選択肢
+
+  List<String> get quizStr => quiz.keys.toList();
+  List<String> bookHistory = []; //問題ごとの正誤履歴
+  int get bookHistoryMax => quiz.bookHistoryMax; //の保存数
 
   MyAppState() {
     getNext();
@@ -41,7 +45,8 @@ class MyAppState extends ChangeNotifier {
   void getNext() {
     mondai = quiz.getNextMondai();
     options = quiz.getNextOptions();
-    quiz.increment();
+    bookHistory = quiz.bookHistoryToStr();
+    quiz.increment(); //contains update
     notifyListeners();
   }
 
@@ -78,7 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
         page = Placeholder();
         break;
       case 3:
-        page = Placeholder();
+        page = NotePage(
+          appState: appState,
+        );
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -162,6 +169,60 @@ class QuizPage extends StatelessWidget {
   }
 }
 
+class NotePage extends StatelessWidget {
+  const NotePage({
+    required this.appState,
+  });
+
+  final MyAppState appState;
+
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    final theme = Theme.of(context);
+    final style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    if (appState.bookHistory.isEmpty) {
+      return Center(
+        child: Text('BH is empty.'),
+      );
+    }
+
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+        ),
+        for (var i = 0; i < appState.bookHistory.length; i++)
+          Card(
+            color: theme.colorScheme.primary,
+            child: ListTile(
+                title: Row(
+              children: [
+                Text(
+                  appState.quizStr[i],
+                  style: style,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Spacer(),
+                SizedBox(
+                  width: 130,
+                  child: Text(
+                    appState.bookHistory[i],
+                    style: style,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+              ],
+            )),
+          ),
+      ],
+    );
+  }
+}
+
 class Question extends StatelessWidget {
   const Question({
     super.key,
@@ -218,6 +279,7 @@ class Option extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
             onPressed: () {
+              print('Button pressed!');
               //userIndexは絶対先!!
               appState.sendUserIndex(index);
               appState.getNext();
@@ -272,24 +334,25 @@ class Quiz {
   List<List<int>> seigoHyo = [];
 
   Queue<Map<String, List<String>>> quizHistory = Queue();
-  Queue<bool> seikaiHistory = Queue();
+  Queue<int> seikaiHistory = Queue();
   final quizHistoryMax = 100;
   final bookHistoryMax = 5;
 
   //gudge just before quiz
-  bool gudge(int userAns, String mondai, List<String> options) {
+  int gudge(int userAns, String mondai, List<String> options) {
     var countPrevious = count - 1;
     if (countPrevious == -1) countPrevious = size - 1;
 
     if (quiz[mondai] == options[userAns]) {
-      return true;
+      return 0;
     }
-    return false;
+    return 1;
   }
 
   //quizHistory
+  //出題ごとの問題・選択肢履歴
   void quizHistoryUpdate(
-      int userAns, String mondai, List<String> options, bool seikai) {
+      int userAns, String mondai, List<String> options, int seikai) {
     if (quizHistory.length >= quizHistoryMax) {
       quizHistory.removeLast();
       seikaiHistory.removeLast();
@@ -299,21 +362,44 @@ class Quiz {
   }
 
   //should not accessed before instance initialize
-  late List<Queue<bool>> bookHistory =
-      List.generate(quiz.length, (_) => Queue<bool>());
+  late List<Queue<int>> bookHistory = List.generate(
+      quiz.length, (_) => Queue<int>()..addAll(List.generate(5, (_) => 2)));
 
   //bookHistory
-  void bookHistoryUpdate(String mondai, bool seikai) {
+  //設問ごとの正誤履歴
+  void bookHistoryUpdate(String mondai, int seikai) {
     var index = keys.indexOf(mondai);
     if (bookHistory[index].length >= bookHistoryMax) {
       bookHistory[index].removeLast();
     }
     bookHistory[index].addFirst(seikai);
-    print(bookHistory);
   }
 
-  List keys = [];
-  List values = [];
+  //設問ごとの正誤履歴をUI表示用にString化
+  List<String> bookHistoryToStr() {
+    List<String> bookHistoryStr = [];
+    for (int i = 0; i < quiz.length; i++) {
+      String bookHistoryStrMini = '';
+      for (int j = 0; j < bookHistoryMax; j++) {
+        switch (bookHistory[i].elementAt(j)) {
+          case 0:
+            bookHistoryStrMini = '$bookHistoryStrMini' 'o';
+            break;
+          case 1:
+            bookHistoryStrMini = '$bookHistoryStrMini' 'x';
+            break;
+          case 2:
+            bookHistoryStrMini = '$bookHistoryStrMini' '-';
+            break;
+        }
+      }
+      bookHistoryStr.add(bookHistoryStrMini);
+    }
+    return bookHistoryStr;
+  }
+
+  List<String> keys = [];
+  List<String> values = [];
 
   //make keys and values
   void mapToList(quiz) {

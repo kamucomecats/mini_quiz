@@ -47,39 +47,116 @@ class MyAppState extends ChangeNotifier {
 
   void sendUserIndex(int index) {
     var seikai = quiz.gudge(index, mondai, options);
-    quiz.historyUpdate(index, mondai, options, seikai);
+    quiz.quizHistoryUpdate(index, mondai, options, seikai);
+    quiz.bookHistoryUpdate(mondai, seikai);
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var selectedIndex = 1;
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
+    Widget page;
+    switch (selectedIndex) {
+      case 0:
+        page = Placeholder();
+        break;
+      case 1:
+        page = QuizPage(
+          appState: appState,
+        );
+        break;
+      case 2:
+        page = Placeholder();
+        break;
+      case 3:
+        page = Placeholder();
+        break;
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
+    }
+
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Question(appState: appState),
-            Option(
-              appState: appState,
-              index: 0,
+      body: Row(
+        children: [
+          SafeArea(
+            child: NavigationRail(
+              destinations: [
+                NavigationRailDestination(
+                  icon: Icon(Icons.home),
+                  label: Text('Home'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.whatshot),
+                  label: Text('Quiz'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.history),
+                  label: Text('History'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.book),
+                  label: Text('Note'),
+                ),
+              ],
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (value) {
+                setState(() {
+                  selectedIndex = value;
+                });
+              },
             ),
-            Option(
-              appState: appState,
-              index: 1,
-            ),
-            Option(
-              appState: appState,
-              index: 2,
-            ),
-            Option(
-              appState: appState,
-              index: 3,
-            ),
-          ],
-        ),
+          ),
+          Expanded(
+              child: Container(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  child: page)),
+        ],
+      ),
+    );
+  }
+}
+
+class QuizPage extends StatelessWidget {
+  const QuizPage({
+    super.key,
+    required this.appState,
+  });
+
+  final MyAppState appState;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Question(appState: appState),
+          Option(
+            appState: appState,
+            index: 0,
+          ),
+          Option(
+            appState: appState,
+            index: 1,
+          ),
+          Option(
+            appState: appState,
+            index: 2,
+          ),
+          Option(
+            appState: appState,
+            index: 3,
+          ),
+        ],
       ),
     );
   }
@@ -197,7 +274,9 @@ class Quiz {
   Queue<Map<String, List<String>>> quizHistory = Queue();
   Queue<bool> seikaiHistory = Queue();
   final quizHistoryMax = 100;
+  final bookHistoryMax = 5;
 
+  //gudge just before quiz
   bool gudge(int userAns, String mondai, List<String> options) {
     var countPrevious = count - 1;
     if (countPrevious == -1) countPrevious = size - 1;
@@ -208,7 +287,8 @@ class Quiz {
     return false;
   }
 
-  void historyUpdate(
+  //quizHistory
+  void quizHistoryUpdate(
       int userAns, String mondai, List<String> options, bool seikai) {
     if (quizHistory.length >= quizHistoryMax) {
       quizHistory.removeLast();
@@ -216,7 +296,20 @@ class Quiz {
     }
     quizHistory.addFirst({mondai: options});
     seikaiHistory.addFirst(seikai);
-    print(seikaiHistory);
+  }
+
+  //should not accessed before instance initialize
+  late List<Queue<bool>> bookHistory =
+      List.generate(quiz.length, (_) => Queue<bool>());
+
+  //bookHistory
+  void bookHistoryUpdate(String mondai, bool seikai) {
+    var index = keys.indexOf(mondai);
+    if (bookHistory[index].length >= bookHistoryMax) {
+      bookHistory[index].removeLast();
+    }
+    bookHistory[index].addFirst(seikai);
+    print(bookHistory);
   }
 
   List keys = [];

@@ -80,7 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
         );
         break;
       case 2:
-        page = Placeholder();
+        page = QuizHisPage(
+          appState: appState,
+        );
         break;
       case 3:
         page = NotePage(
@@ -219,6 +221,34 @@ class NotePage extends StatelessWidget {
             )),
           ),
       ],
+    );
+  }
+}
+
+class QuizHisPage extends StatelessWidget {
+  const QuizHisPage({
+    required this.appState,
+  });
+
+  final MyAppState appState;
+
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    final theme = Theme.of(context);
+    final style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    if (appState.bookHistory.isEmpty) {
+      return Center(
+        child: Text('BH is empty.'),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: appState.quizStr.length,
+      itemBuilder: (context, index),{}
     );
   }
 }

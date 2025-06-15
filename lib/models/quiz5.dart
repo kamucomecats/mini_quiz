@@ -22,59 +22,65 @@ class Quiz5 {
   }
 
   final Map<String, List<String>> quiz5 = {
-    '1': [
-      'one',
-      'dummy',
-      'dummy',
-      'dummy',
+    "Only after the meeting ___ that the project had been approved.": [
+      "did we realize",
+      "we realized",
+      "realized we",
+      "we had realized"
     ],
-    '2': [
-      'two',
-      'dummy',
-      'dummy',
-      'dummy',
+    "If she ___ the deadline, she would have received the bonus.": [
+      "had met",
+      "met",
+      "would meet",
+      "meets"
     ],
-    '3': [
-      'three',
-      'dummy',
-      'dummy',
-      'dummy',
+    "It is crucial that every employee ___ the safety procedures.": [
+      "follow",
+      "follows",
+      "followed",
+      "will follow"
     ],
-    '4': [
-      'four',
-      'dummy',
-      'dummy',
-      'dummy',
+    "Scarcely had they entered the room ___ the lights went out.": [
+      "when",
+      "than",
+      "as",
+      "so"
     ],
-    '5': [
-      'five',
-      'dummy',
-      'dummy',
-      'dummy',
+    "I wish I ___ more time to finish this report.": [
+      "had",
+      "have",
+      "would have",
+      "will have"
     ],
-    '6': [
-      'six',
-      'dummy',
-      'dummy',
-      'dummy',
+    "Not until next week ___ the new manager start working.": [
+      "will",
+      "does",
+      "is",
+      "did"
     ],
-    '7': [
-      'seven',
-      'dummy',
-      'dummy',
-      'dummy',
+    "The professor suggested that the students ___ more primary sources.": [
+      "use",
+      "uses",
+      "used",
+      "will use"
     ],
-    '8': [
-      'eight',
-      'dummy',
-      'dummy',
-      'dummy',
+    "Were I ___ the opportunity, I would gladly take the position.": [
+      "given",
+      "giving",
+      "give",
+      "gives"
     ],
-    '9': [
-      'nine',
-      'dummy',
-      'dummy',
-      'dummy',
+    "Little ___ about the new project until the official announcement.": [
+      "did we know",
+      "we knew",
+      "we know",
+      "knowing we"
+    ],
+    "If only he ___ earlier about the schedule change!": [
+      "had known",
+      "knows",
+      "knew",
+      "would know"
     ],
   };
 
@@ -88,7 +94,7 @@ class Quiz5 {
 
   //gudge just before quiz
   //return 0 when correct
-  int gudge(int userAns, String mondai, List<String> options) {    
+  int gudge(int userAns, String mondai, List<String> options) {
     var countPrevious = count - 1;
     if (countPrevious == -1) countPrevious = size - 1;
 

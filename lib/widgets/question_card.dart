@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_quiz/providers/quiz_state.dart';
+import 'responsive_text.dart';
 
 class Question extends StatelessWidget {
   const Question({
@@ -22,13 +23,14 @@ class Question extends StatelessWidget {
       child: Card(
         color: theme.colorScheme.primary,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: FittedBox(
-            child: Text(
-              appState.mondai,
-              style: style,
-            ),
-          ),
+          padding: const EdgeInsets.all(10.0),
+          child: Center(
+            child: ResponsiveText(
+              text: appState.mondai,
+               baseStyle: style,
+               maxFontSize: style.fontSize ?? 30,
+               minFontSize: 22,),
+          )
         ),
       ),
     );

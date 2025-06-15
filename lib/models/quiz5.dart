@@ -2,43 +2,83 @@ import 'dart:collection';
 
 //クイズ生成ロジックとデータを含む
 
+//具体的には
+//問題・正答誤答データ保管(quiz5では)
+//正誤判定(gudge関数, called only by others)
+//出題、回答履歴の更新
+
 //外部から見たら、getNextするだけでとにかくStringが返ってくるのが理想
 //外から呼ぶものを1つに絞る
 //呼ばれるのはgetNextMondai()、getNextOptions()、increment()
 //3つにしたのは外で扱いやすいと思ったから!
 //3つは出題のたびに必ず、同時に、一度に呼ぶ
 
-class Quiz {
-  Quiz() {
-    _mapToList(quiz);
+//quizの4択を指定可能にしたversion
+
+class Quiz5 {
+  Quiz5() {
+    _mapToList(quiz5);
     update();
   }
 
-  final Map<String, String> quiz = {
-    '1': 'one',
-    '2': 'two',
-    '3': 'three',
-    '4': 'four',
-    '5': 'five',
-    '6': 'six',
-    '7': 'seven',
-    '8': 'eight',
-    '9': 'nine',
+  final Map<String, List<String>> quiz5 = {
+    '1': [
+      'one',
+      'dummy',
+      'dummy',
+      'dummy',
+    ],
+    '2': [
+      'two',
+      'dummy',
+      'dummy',
+      'dummy',
+    ],
+    '3': [
+      'three',
+      'dummy',
+      'dummy',
+      'dummy',
+    ],
+    '4': [
+      'four',
+      'dummy',
+      'dummy',
+      'dummy',
+    ],
+    '5': [
+      'five',
+      'dummy',
+      'dummy',
+      'dummy',
+    ],
+    '6': [
+      'six',
+      'dummy',
+      'dummy',
+      'dummy',
+    ],
+    '7': [
+      'seven',
+      'dummy',
+      'dummy',
+      'dummy',
+    ],
+    '8': [
+      'eight',
+      'dummy',
+      'dummy',
+      'dummy',
+    ],
+    '9': [
+      'nine',
+      'dummy',
+      'dummy',
+      'dummy',
+    ],
   };
 
-  /*  '私は学校に走ります。': 'Ich laufe zur Schule.',
-    '私の趣味は女装です。': 'Mein Hobby ist Cross-Dressing.',
-    '私は東京出身です。': 'Ich komme aus Tokio.',
-    '私の職業は料理人です。': 'Mein Beruf ist Koch.',
-    '私の好きな科目は数学です。': 'Mein Lieblingsfach ist Mathematik.',
-    '私は図書館にいます。': 'Ich bin in der Bibliothek.',
-    '私は財布を探しています。': 'Ich suche meine Brieftasche.',
-    '私は電車を待っています。': 'Ich warte auf einen Zug.',
-    '私は彼に怒っています。': 'Ich bin wütend auf ihn.',
-    '私は風邪をひいています。': 'Ich habe eine Erkältung.',*/
-
-  //0-dim is quizIndex
-  //1-dim is recent correct ans rate(10 times)
+  //seigoHyo[quizIndex][recent correct ans rate(?? times)]
   List<List<int>> seigoHyo = [];
 
   Queue<Map<String, List<String>>> quizHistory = Queue();
@@ -47,11 +87,12 @@ class Quiz {
   final bookHistoryMax = 5;
 
   //gudge just before quiz
-  int gudge(int userAns, String mondai, List<String> options) {
+  //return 0 when correct
+  int gudge(int userAns, String mondai, List<String> options) {    
     var countPrevious = count - 1;
     if (countPrevious == -1) countPrevious = size - 1;
 
-    if (quiz[mondai] == options[userAns]) {
+    if (quiz5[mondai]![0] == options[userAns]) {
       return 0;
     }
     return 1;
@@ -71,7 +112,7 @@ class Quiz {
 
   //should not accessed before instance initialize
   late List<Queue<int>> bookHistory = List.generate(
-      quiz.length, (_) => Queue<int>()..addAll(List.generate(5, (_) => 2)));
+      quiz5.length, (_) => Queue<int>()..addAll(List.generate(5, (_) => 2)));
 
   //bookHistory
   //設問ごとの正誤履歴
@@ -86,7 +127,7 @@ class Quiz {
   //設問ごとの正誤履歴をUI表示用にString化
   List<String> bookHistoryToStr() {
     List<String> bookHistoryStr = [];
-    for (int i = 0; i < quiz.length; i++) {
+    for (int i = 0; i < quiz5.length; i++) {
       String bookHistoryStrMini = '';
       for (int j = 0; j < bookHistoryMax; j++) {
         switch (bookHistory[i].elementAt(j)) {
@@ -107,12 +148,10 @@ class Quiz {
   }
 
   List<String> keys = [];
-  List<String> values = [];
 
   //make keys and values
   void _mapToList(quiz) {
     keys = quiz.keys.toList();
-    values = quiz.values.toList();
     return;
   }
 
@@ -122,12 +161,12 @@ class Quiz {
 
   //randKeysのあとで呼ぶ
   String getNextMondai() {
-    return randKeys[count];
+    return randQuestions[count];
   }
 
   //randKeysのあとで呼ぶ
   List<String> getNextOptions() {
-    return randValues[count];
+    return randAnswers[count];
   }
 
   //count進数制御、update
@@ -139,38 +178,27 @@ class Quiz {
     }
   }
 
-  List<String> randKeys = [];
-  List<List<String>> randValues = [];
+  List<String> randQuestions = [];
+  List<List<String>> randAnswers = [];
 
-  //randKeys and randOptions update
+  //randQuestions and randOptions update
   void update() {
     //randKeyUpdate
-    List<int> randKeysIndex = List.generate(quiz.length, (i) => i).toList();
-    randKeysIndex.shuffle();
-    randKeysIndex = randKeysIndex.take(size).toList();
-    randKeys = [];
+    List<int> randQuestionsIndex =
+        List.generate(quiz5.length, (i) => i).toList()..shuffle();
+    randQuestionsIndex = randQuestionsIndex.take(size).toList();
+    randQuestions = [];
     for (int i = 0; i < size; i++) {
-      randKeys.add(keys[randKeysIndex[i]]);
+      randQuestions.add(keys[randQuestionsIndex[i]]);
     }
 
     //randOptionsUpdate
-    List<List<int>> randValuesIndex = [];
+    randAnswers = [];
     for (int i = 0; i < size; i++) {
-      var candidates = List.generate(quiz.length, (i) => i).toList()
-        ..remove(randKeysIndex[i]);
-      candidates.shuffle();
-
-      randValuesIndex.add(candidates.take(optionsNum - 1).toList());
-      randValuesIndex[i].add(randKeysIndex[i]);
-      randValuesIndex[i].shuffle();
-    }
-    randValues = [];
-    for (int i = 0; i < size; i++) {
-      List<String> randValuesMini = [];
-      for (int j = 0; j < randValuesIndex[i].length; j++) {
-        randValuesMini.add(values[randValuesIndex[i][j]]);
-      }
-      randValues.add(randValuesMini);
+      final key = randQuestions[i];
+      List<String> randAnswersMini = [...quiz5[key]!];
+      randAnswersMini.shuffle();
+      randAnswers.add(randAnswersMini);
     }
     return;
   }

@@ -1,3 +1,6 @@
+//home画面、最初にこれを出すようにする
+//Navigator ＋ Routeなどの形に書き換える可能性あり
+
 import 'package:flutter/material.dart';
 import 'package:mini_quiz/providers/quiz_state.dart';
 import 'package:provider/provider.dart';

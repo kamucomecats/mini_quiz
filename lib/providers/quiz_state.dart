@@ -5,9 +5,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:mini_quiz/models/quiz.dart';
+import 'package:mini_quiz/models/quiz5.dart';
 
 class QuizState extends ChangeNotifier {
-  final _quiz = Quiz();
+  final _quiz = Quiz5(); //まだquizとquiz5間で互換性あり
 
   String mondai = ''; //問題文
   List<String> options = []; //選択肢

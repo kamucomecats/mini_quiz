@@ -19,18 +19,16 @@ class Question extends StatelessWidget {
 
     return SizedBox(
       width: 300,
-      height: 300,
+      height: 250,
       child: Card(
         color: theme.colorScheme.primary,
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Center(
-            child: ResponsiveText(
-              text: appState.mondai,
-               baseStyle: style,
-               maxFontSize: style.fontSize ?? 30,
-               minFontSize: 22,),
-          )
+          padding: const EdgeInsets.all(20.0),
+          child: ResponsiveText(
+            text: appState.mondai,
+             baseStyle: style,
+             maxFontSize: style.fontSize ?? 30,
+             minFontSize: 24,)
         ),
       ),
     );

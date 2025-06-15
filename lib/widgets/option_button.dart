@@ -18,7 +18,7 @@ class Option extends StatelessWidget {
 
     return SizedBox(
       width: 300,
-      height: 100,
+      height: 70,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(

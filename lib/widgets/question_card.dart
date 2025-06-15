@@ -19,7 +19,6 @@ class Question extends StatelessWidget {
 
     return SizedBox(
       width: 300,
-      height: 250,
       child: Card(
         color: theme.colorScheme.primary,
         child: Padding(

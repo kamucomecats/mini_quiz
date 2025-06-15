@@ -88,16 +88,16 @@ class Quiz {
     List<String> bookHistoryStr = [];
     for (int i = 0; i < quiz.length; i++) {
       String bookHistoryStrMini = '';
-      for (int j = 0; j < bookHistoryMax; j++) {
-        switch (bookHistory[i].elementAt(j)) {
+      for (var bookData in bookHistory) {
+        switch (bookData.elementAt(i)) {
           case 0:
-            bookHistoryStrMini = '$bookHistoryStrMini' 'o';
+            bookHistoryStrMini += 'o';
             break;
           case 1:
-            bookHistoryStrMini = '$bookHistoryStrMini' 'x';
+            bookHistoryStrMini += 'x';
             break;
           case 2:
-            bookHistoryStrMini = '$bookHistoryStrMini' '-';
+            bookHistoryStrMini += '-';
             break;
         }
       }
@@ -165,10 +165,10 @@ class Quiz {
       randValuesIndex[i].shuffle();
     }
     randValues = [];
-    for (int i = 0; i < size; i++) {
+    for (var randValue in randValuesIndex) {
       List<String> randValuesMini = [];
-      for (int j = 0; j < randValuesIndex[i].length; j++) {
-        randValuesMini.add(values[randValuesIndex[i][j]]);
+      for (int i = 0; i < randValue.length; i++) {
+        randValuesMini.add(values[randValue[i]]);
       }
       randValues.add(randValuesMini);
     }

@@ -34,17 +34,26 @@ class NotePage extends StatelessWidget {
             child: ListTile(
                 title: Row(
               children: [
-                Text(
-                  appState.quizStr[i],
-                  style: style,
-                  overflow: TextOverflow.ellipsis,
+                SizedBox(
+                  width: 130,
+                  child: Text(
+                    appState.quizStr[i],
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 Spacer(),
                 SizedBox(
                   width: 130,
                   child: Text(
                     appState.bookHistory[i],
-                    style: style,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 )

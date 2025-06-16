@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'quiz_log.dart';
 
 //クイズ生成ロジックとデータを含む
 
@@ -43,6 +44,7 @@ class Quiz {
 
   Queue<Map<String, List<String>>> quizHistory = Queue();
   Queue<int> seikaiHistory = Queue();
+  Queue<int> userAnsHistory = Queue();
   final quizHistoryMax = 100;
   final bookHistoryMax = 5;
 
@@ -59,21 +61,24 @@ class Quiz {
 
   //quizHistory
   //出題ごとの問題・選択肢履歴
+  //難しいので一旦、問題選択肢、正誤、回答は別々のqueueで運搬
   void quizHistoryUpdate(
       int userAns, String mondai, List<String> options, int seikai) {
     if (quizHistory.length >= quizHistoryMax) {
       quizHistory.removeLast();
       seikaiHistory.removeLast();
+      userAnsHistory.removeLast();
     }
     quizHistory.addFirst({mondai: options});
     seikaiHistory.addFirst(seikai);
+    userAnsHistory.addFirst(userAns);
   }
 
   //should not accessed before instance initialize
   late List<Queue<int>> bookHistory = List.generate(
       quiz.length, (_) => Queue<int>()..addAll(List.generate(5, (_) => 2)));
 
-  //bookHistory
+  //bookHistory List<Queue<int>>
   //設問ごとの正誤履歴
   void bookHistoryUpdate(String mondai, int seikai) {
     var index = keys.indexOf(mondai);
@@ -173,5 +178,26 @@ class Quiz {
       randValues.add(randValuesMini);
     }
     return;
+  }
+
+  List<QuizLog> quizHistoryToLog() {
+    final history = <QuizLog>[];
+
+    final mondaiList = quizHistory.toList();
+    final seikaiList = seikaiHistory.toList();
+    final userAnsList = userAnsHistory.toList();
+
+    for (int i = 0; i < mondaiList.length; i++) {
+      final entry = mondaiList[i].entries.first;
+      history.add(
+        QuizLog(
+          mondai: entry.key,
+          options: entry.value,
+          userAns: userAnsList[i],
+          seikai: seikaiList[i],
+        ),
+      );
+    }
+    return history;
   }
 }

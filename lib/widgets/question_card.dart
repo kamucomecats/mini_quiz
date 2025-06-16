@@ -23,11 +23,24 @@ class Question extends StatelessWidget {
         color: theme.colorScheme.primary,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: ResponsiveText(
-            text: appState.mondai,
-             baseStyle: style,
-             maxFontSize: style.fontSize ?? 30,
-             minFontSize: 24,)
+          child: Column(
+            children: [
+              SizedBox(
+                width: 300,
+                height: 30,
+                child: Text('No.243',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),),
+              ),
+              ResponsiveText(
+                text: appState.mondai,
+                 baseStyle: style,
+                 maxFontSize: style.fontSize ?? 30,
+                 minFontSize: 24,),
+            ],
+          )
         ),
       ),
     );

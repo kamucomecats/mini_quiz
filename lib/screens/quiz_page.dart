@@ -19,29 +19,27 @@ class QuizPage extends StatelessWidget {
         children: [
           LifeGauge(appState: appState),
           Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Question(appState: appState),
-                  Option(
-                    appState: appState,
-                    index: 0,
-                  ),
-                  Option(
-                    appState: appState,
-                    index: 1,
-                  ),
-                  Option(
-                    appState: appState,
-                    index: 2,
-                  ),
-                  Option(
-                    appState: appState,
-                    index: 3,
-                  ),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Question(appState: appState),
+                Option(
+                  appState: appState,
+                  index: 0,
+                ),
+                Option(
+                  appState: appState,
+                  index: 1,
+                ),
+                Option(
+                  appState: appState,
+                  index: 2,
+                ),
+                Option(
+                  appState: appState,
+                  index: 3,
+                ),
+              ],
             ),
           ),
         ],

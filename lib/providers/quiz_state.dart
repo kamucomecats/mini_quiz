@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mini_quiz/models/quiz5.dart';
+import 'package:mini_quiz/models/quiz_log.dart';
 
 class QuizState extends ChangeNotifier {
   final _quiz = Quiz5(); //まだquizとquiz5間で互換性あり
@@ -15,7 +16,9 @@ class QuizState extends ChangeNotifier {
 
   List<String> get quizStr => _quiz.keys.toList();
   List<String> bookHistory = []; //問題ごとの正誤履歴
-  int get bookHistoryMax => _quiz.bookHistoryMax; //の保存数
+  List<QuizLog> quizLog = []; //問題ごとの正誤履歴
+  int get bookHistoryMax => _quiz.gradeHistoryMax; //の保存数
+  int get quizHistoryMax => _quiz.quizHistoryMax; //の保存数
 
   void init() {
     _setNext();
@@ -29,7 +32,8 @@ class QuizState extends ChangeNotifier {
   void _setNext() {
     mondai = _quiz.getNextMondai();
     options = _quiz.getNextOptions();
-    bookHistory = _quiz.bookHistoryToStr();
+    bookHistory = _quiz.gradeHistoryToStr();
+    quizLog = _quiz.quizHistoryToLog();
     _quiz.increment(); //contains update
     notifyListeners();
   }
@@ -38,10 +42,10 @@ class QuizState extends ChangeNotifier {
   //正誤判定の呼び出し + 履歴更新の呼び出し + ライフの更新
   void _sendUserIndex(int index) {
     var seikai = _quiz.gudge(index, mondai, options);
-    if (seikai == 1) {
+    if (seikai == 1 && lifeCount >= 0) {
       lifeCount = lifeCount - 1;
     }
     _quiz.quizHistoryUpdate(index, mondai, options, seikai);
-    _quiz.bookHistoryUpdate(mondai, seikai);
+    _quiz.gradeHistoryUpdate(mondai, seikai);
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'quiz_log.dart';
 
 //クイズ生成ロジックとデータを含む
 
@@ -89,8 +90,9 @@ class Quiz5 {
 
   Queue<Map<String, List<String>>> quizHistory = Queue();
   Queue<int> seikaiHistory = Queue();
-  final quizHistoryMax = 100;
-  final bookHistoryMax = 5;
+  Queue<int> userAnsHistory = Queue();
+  final quizHistoryMax = 5;
+  final gradeHistoryMax = 5;
 
   //gudge just before quiz
   //return 0 when correct
@@ -106,51 +108,54 @@ class Quiz5 {
 
   //quizHistory
   //出題ごとの問題・選択肢履歴
+  //難しいので一旦、(問題 + 選択肢)、正誤、回答は別々のqueueでスタート
   void quizHistoryUpdate(
       int userAns, String mondai, List<String> options, int seikai) {
     if (quizHistory.length >= quizHistoryMax) {
       quizHistory.removeLast();
       seikaiHistory.removeLast();
+      userAnsHistory.removeLast();
     }
     quizHistory.addFirst({mondai: options});
     seikaiHistory.addFirst(seikai);
+    userAnsHistory.addFirst(userAns);
   }
 
   //should not accessed before instance initialize
-  late List<Queue<int>> bookHistory = List.generate(
+  late List<Queue<int>> gradeHistory = List.generate(
       quiz5.length, (_) => Queue<int>()..addAll(List.generate(5, (_) => 2)));
 
-  //bookHistory
+  //gradeHistory List<Queue<int>>
   //設問ごとの正誤履歴
-  void bookHistoryUpdate(String mondai, int seikai) {
+  void gradeHistoryUpdate(String mondai, int seikai) {
     var index = keys.indexOf(mondai);
-    if (bookHistory[index].length >= bookHistoryMax) {
-      bookHistory[index].removeLast();
+    if (gradeHistory[index].length >= gradeHistoryMax) {
+      gradeHistory[index].removeLast();
     }
-    bookHistory[index].addFirst(seikai);
+    gradeHistory[index].addFirst(seikai);
   }
 
   //設問ごとの正誤履歴をUI表示用にString化
-  List<String> bookHistoryToStr() {
-    List<String> bookHistoryStr = [];
+  List<String> gradeHistoryToStr() {
+    List<String> gradeHistoryStrs = [];
     for (int i = 0; i < quiz5.length; i++) {
-      String bookHistoryStrMini = '';
-      for (int j = 0; j < bookHistoryMax; j++) {
-        switch (bookHistory[i].elementAt(j)) {
+      String bookHistoryStr = '';
+      for (int j = 0; j < gradeHistoryMax; j++) {
+        switch (gradeHistory[i].elementAt(j)) {
           case 0:
-            bookHistoryStrMini = '$bookHistoryStrMini' 'o';
+            bookHistoryStr = '$bookHistoryStr' '✅';
             break;
           case 1:
-            bookHistoryStrMini = '$bookHistoryStrMini' 'x';
+            bookHistoryStr = '$bookHistoryStr' '❌';
             break;
           case 2:
-            bookHistoryStrMini = '$bookHistoryStrMini' '-';
+            bookHistoryStr = '$bookHistoryStr' '⬛';
             break;
         }
       }
-      bookHistoryStr.add(bookHistoryStrMini);
+      gradeHistoryStrs.add(bookHistoryStr);
     }
-    return bookHistoryStr;
+    return gradeHistoryStrs;
   }
 
   List<String> keys = [];
@@ -161,7 +166,7 @@ class Quiz5 {
     return;
   }
 
-  var size = 5;
+  final size = 5;
   var count = 0;
   final optionsNum = 4;
 
@@ -207,5 +212,25 @@ class Quiz5 {
       randAnswers.add(randAnswersMini);
     }
     return;
+  }
+
+  List<QuizLog> quizHistoryToLog() {
+    final history = <QuizLog>[];
+    final mondaiList = quizHistory.toList();
+    final seikaiList = seikaiHistory.toList();
+    final userAnsList = userAnsHistory.toList();
+
+    for (int i = 0; i < mondaiList.length; i++) {
+      final entry = mondaiList[i].entries.first;
+      history.add(
+        QuizLog(
+          mondai: entry.key,
+          options: entry.value,
+          userAns: userAnsList[i],
+          seikai: seikaiList[i],
+        ),
+      );
+    }
+    return history;
   }
 }

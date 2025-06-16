@@ -34,10 +34,13 @@ class QuizHisPage extends StatelessWidget {
             child: ListTile(
                 title: Row(
               children: [
-                Text(
-                  appState.quizStr[i],
-                  style: style,
-                  overflow: TextOverflow.ellipsis,
+                SizedBox(
+                  width: 130,
+                  child: Text(
+                    appState.quizStr[i],
+                    style: style,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 Spacer(),
                 SizedBox(

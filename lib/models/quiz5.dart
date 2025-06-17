@@ -125,21 +125,21 @@ class Quiz5 {
   List<String> gradeHistoryToStr() {
     List<String> gradeHistoryStrs = [];
     for (int i = 0; i < quiz5.length; i++) {
-      String bookHistoryStr = '';
+      String gradeHistoryStr = '';
       for (int j = 0; j < gradeHistory[i].length; j++) {
         switch (gradeHistory[i].elementAt(j)) {
           case true:
-            bookHistoryStr = '$bookHistoryStr' '✅';
+            gradeHistoryStr = '$gradeHistoryStr' '✅';
             break;
           case false:
-            bookHistoryStr = '$bookHistoryStr' '❌';
+            gradeHistoryStr = '$gradeHistoryStr' '❌';
             break;
         }
       }
       for (int j = 0; j < gradeHistoryMax - gradeHistory[i].length;j++){
-        bookHistoryStr = '$bookHistoryStr' '⬛';
+        gradeHistoryStr = '$gradeHistoryStr' '⬛';
       }
-        gradeHistoryStrs.add(bookHistoryStr);
+        gradeHistoryStrs.add(gradeHistoryStr);
     }
     return gradeHistoryStrs;
   }

@@ -17,7 +17,7 @@ class NotePage extends StatelessWidget {
       color: theme.colorScheme.onPrimary,
     );
 
-    if (appState.bookHistory.isEmpty) {
+    if (appState.gradeHistoties.isEmpty) {
       return Center(
         child: Text('BH is empty.'),
       );
@@ -28,7 +28,7 @@ class NotePage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(20),
         ),
-        for (var i = 0; i < appState.bookHistory.length; i++)
+        for (var i = 0; i < appState.gradeHistoties.length; i++)
           Card(
             color: theme.colorScheme.primary,
             child: ListTile(
@@ -38,10 +38,7 @@ class NotePage extends StatelessWidget {
                   width: 130,
                   child: Text(
                     appState.quizStr[i],
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.white
-                    ),
+                    style: TextStyle(fontSize: 30, color: Colors.white),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -49,11 +46,8 @@ class NotePage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.bookHistory[i],
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white
-                    ),
+                    appState.gradeHistoties[i],
+                    style: TextStyle(fontSize: 20, color: Colors.white),
                     overflow: TextOverflow.ellipsis,
                   ),
                 )

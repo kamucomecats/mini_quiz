@@ -19,7 +19,7 @@ class QuizState extends ChangeNotifier {
   int lifeCount = 20; //残りライフ
 
   List<String> get quizStr => _quiz.keys.toList();
-  List<String> bookHistory = []; //問題ごとの正誤履歴
+  List<String> gradeHistoties = []; //問題ごとの正誤履歴
   Queue<QuizLog> quizLogs = Queue(); //問題ごとの正誤履歴
   int get gradeHistoryMax => _quiz.gradeHistoryMax; //の保存数
   int get quizLogMax => _quiz.quizLogMax; //の保存数
@@ -37,7 +37,7 @@ class QuizState extends ChangeNotifier {
     id = _quiz.getNextMondaiIndex();
     mondai = _quiz.getNextMondai();
     options = _quiz.getNextOptions();
-    bookHistory = _quiz.gradeHistoryToStr();
+    gradeHistoties = _quiz.gradeHistoryToStr();
     _quiz.increment(); //contains update
     notifyListeners();
   }

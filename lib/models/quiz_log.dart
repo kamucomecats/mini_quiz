@@ -2,8 +2,8 @@ class QuizLog {
   final int id;
   final String mondai;
   final List<String> options;
-  final int userAns;
-  final int seikai;
+  final int? userAns;
+  final bool? seikai;
 
   QuizLog({
     required this.id,

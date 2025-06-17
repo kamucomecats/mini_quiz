@@ -22,7 +22,14 @@ class QuizPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Question(appState: appState),
+                Expanded(
+                    child: ListView.builder(
+                      reverse: true,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return Question(appState: appState);
+                  },
+                )),
                 Option(
                   appState: appState,
                   index: 0,

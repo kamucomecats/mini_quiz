@@ -97,23 +97,23 @@ class Quiz5 {
 
   //gudge just before quiz
   //return 0 when correct
-  int gudge(int userAns, String mondai, List<String> options) {
+  bool isCorrect(int userAns, String mondai, List<String> options) {
     var countPrevious = count - 1;
     if (countPrevious == -1) countPrevious = size - 1;
 
     if (quiz5[mondai]![0] == options[userAns]) {
-      return 0;
+      return true;
     }
-    return 1;
+    return false;
   }
 
-  //正誤履歴の初期化、全部の問題を'2'(=未回答)で埋める
-  late List<Queue<int>> gradeHistory = List.generate(
-      quiz5.length, (_) => Queue<int>()..addAll(List.generate(5, (_) => 2)));
+  //正誤履歴の初期化、全部の問題をboolの空queue(=未回答)で埋める
+  late List<Queue<bool>> gradeHistory =
+      List.generate(quiz5.length, (_) => Queue<bool>());
 
   //gradeHistory List<Queue<int>>
   //設問ごとの正誤履歴
-  void gradeHistoryUpdate(String mondai, int seikai) {
+  void gradeHistoryUpdate(String mondai, bool seikai) {
     var index = keys.indexOf(mondai);
     if (gradeHistory[index].length >= gradeHistoryMax) {
       gradeHistory[index].removeLast();
@@ -126,20 +126,20 @@ class Quiz5 {
     List<String> gradeHistoryStrs = [];
     for (int i = 0; i < quiz5.length; i++) {
       String bookHistoryStr = '';
-      for (int j = 0; j < gradeHistoryMax; j++) {
+      for (int j = 0; j < gradeHistory[i].length; j++) {
         switch (gradeHistory[i].elementAt(j)) {
-          case 0:
+          case true:
             bookHistoryStr = '$bookHistoryStr' '✅';
             break;
-          case 1:
+          case false:
             bookHistoryStr = '$bookHistoryStr' '❌';
-            break;
-          case 2:
-            bookHistoryStr = '$bookHistoryStr' '⬛';
             break;
         }
       }
-      gradeHistoryStrs.add(bookHistoryStr);
+      for (int j = 0; j < gradeHistoryMax - gradeHistory[i].length;j++){
+        bookHistoryStr = '$bookHistoryStr' '⬛';
+      }
+        gradeHistoryStrs.add(bookHistoryStr);
     }
     return gradeHistoryStrs;
   }

@@ -21,7 +21,7 @@ class QuizState extends ChangeNotifier {
   List<String> get quizStr => _quiz.keys.toList();
   List<String> bookHistory = []; //問題ごとの正誤履歴
   Queue<QuizLog> quizLogs = Queue(); //問題ごとの正誤履歴
-  int get bookHistoryMax => _quiz.gradeHistoryMax; //の保存数
+  int get gradeHistoryMax => _quiz.gradeHistoryMax; //の保存数
   int get quizLogMax => _quiz.quizLogMax; //の保存数
 
   void init() {
@@ -45,8 +45,8 @@ class QuizState extends ChangeNotifier {
   //答え終わったあとに必ず通る、option_buttonに呼ばれる
   //正誤判定の呼び出し + 履歴更新の呼び出し + ライフの更新
   void _sendUserIndex(int userAns) {
-    var seikai = _quiz.gudge(userAns, mondai, options);
-    if (seikai == 1 && lifeCount >= 0) {
+    var seikai = _quiz.isCorrect(userAns, mondai, options);
+    if (seikai == false && lifeCount > 0) {
       lifeCount = lifeCount - 1;
     }
     QuizLog newLog = makeLog(id, mondai, options, userAns, seikai);
@@ -58,15 +58,15 @@ class QuizState extends ChangeNotifier {
     int id,
     String mondai,
     List<String> options,
-    int userAns,
-    int seikai,
+    int? userAns,
+    bool? seikai,
   ) {
     final newLog = QuizLog(
         id: id,
         mondai: mondai,
         options: options,
-        userAns: userAns,
-        seikai: seikai);
+        userAns: null,
+        seikai: null);
     return newLog;
   }
 
@@ -75,6 +75,6 @@ class QuizState extends ChangeNotifier {
       quizLogs.removeLast();
     }
     quizLogs.addFirst(newLog);
-    print(quizLogs);
+    (quizLogs.elementAt(0).mondai);
   }
 }

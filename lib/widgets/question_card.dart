@@ -56,6 +56,16 @@ class Question extends StatelessWidget {
                   maxFontSize: style.fontSize ?? 30,
                   minFontSize: 24,
                 ),
+                appState.quizLogs.elementAt(index).seikai != null
+                ? Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(appState.quizLogs.elementAt(index).userAns.toString(),
+                    style: TextStyle(color: Colors.white ,
+                    fontSize: 24),),
+                  ],
+                )
+                : SizedBox.shrink(),
               ],
             )),
       ),

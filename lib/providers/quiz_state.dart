@@ -84,8 +84,8 @@ class QuizState extends ChangeNotifier {
 
   void _addQuizLog(int userAns, bool seikai) {
     print('add');
-    quizLogs.last.userAns = userAns;
-    quizLogs.last.seikai = seikai;
+    quizLogs.first.userAns = userAns;
+    quizLogs.first.seikai = seikai;
   }
 }
 

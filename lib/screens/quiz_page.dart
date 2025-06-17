@@ -25,7 +25,7 @@ class QuizPage extends StatelessWidget {
                 Expanded(
                     child: ListView.builder(
                       reverse: true,
-                  itemCount: 5,
+                  itemCount: appState.quizLogs.length,
                   itemBuilder: (context, index) {
                     return Question(appState: appState, index: index,);
                   },

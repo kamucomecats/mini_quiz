@@ -28,7 +28,7 @@ class Question extends StatelessWidget {
               SizedBox(
                 width: 300,
                 height: 30,
-                child: Text('No.243',
+                child: Text('No.${appState.id}',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.white,

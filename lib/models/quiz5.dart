@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'quiz_log.dart';
 
 //クイズ生成ロジックとデータを含む
+//model(=参照先、内部値は絶対になし、静的要素全部)
 
 //具体的には
 //問題・正答誤答データ保管(quiz5では)
@@ -88,10 +89,10 @@ class Quiz5 {
   //seigoHyo[quizIndex][recent correct ans rate(?? times)]
   List<List<int>> seigoHyo = [];
 
-  Queue<Map<String, List<String>>> quizHistory = Queue();
+  Queue<QuizLog> quizLog = Queue();
   Queue<int> seikaiHistory = Queue();
   Queue<int> userAnsHistory = Queue();
-  final quizHistoryMax = 5;
+  final quizLogMax = 5;
   final gradeHistoryMax = 5;
 
   //gudge just before quiz
@@ -106,22 +107,7 @@ class Quiz5 {
     return 1;
   }
 
-  //quizHistory
-  //出題ごとの問題・選択肢履歴
-  //難しいので一旦、(問題 + 選択肢)、正誤、回答は別々のqueueでスタート
-  void quizHistoryUpdate(
-      int userAns, String mondai, List<String> options, int seikai) {
-    if (quizHistory.length >= quizHistoryMax) {
-      quizHistory.removeLast();
-      seikaiHistory.removeLast();
-      userAnsHistory.removeLast();
-    }
-    quizHistory.addFirst({mondai: options});
-    seikaiHistory.addFirst(seikai);
-    userAnsHistory.addFirst(userAns);
-  }
-
-  //should not accessed before instance initialize
+  //正誤履歴の初期化、全部の問題を'2'(=未回答)で埋める
   late List<Queue<int>> gradeHistory = List.generate(
       quiz5.length, (_) => Queue<int>()..addAll(List.generate(5, (_) => 2)));
 
@@ -171,6 +157,11 @@ class Quiz5 {
   final optionsNum = 4;
 
   //randKeysのあとで呼ぶ
+  int getNextMondaiIndex() {
+    return randQuestionsIndex[count] + 1;
+  }
+
+  //randKeysのあとで呼ぶ
   String getNextMondai() {
     return randQuestions[count];
   }
@@ -189,14 +180,15 @@ class Quiz5 {
     }
   }
 
+  List<int> randQuestionsIndex = [];
   List<String> randQuestions = [];
   List<List<String>> randAnswers = [];
 
-  //randQuestions and randOptions update
+  //randIds + randQuestions + randOptions update
   void update() {
-    //randKeyUpdate
-    List<int> randQuestionsIndex =
-        List.generate(quiz5.length, (i) => i).toList()..shuffle();
+    //randQuestionsUpdate
+    randQuestionsIndex = List.generate(quiz5.length, (i) => i).toList()
+      ..shuffle();
     randQuestionsIndex = randQuestionsIndex.take(size).toList();
     randQuestions = [];
     for (int i = 0; i < size; i++) {
@@ -212,25 +204,5 @@ class Quiz5 {
       randAnswers.add(randAnswersMini);
     }
     return;
-  }
-
-  List<QuizLog> quizHistoryToLog() {
-    final history = <QuizLog>[];
-    final mondaiList = quizHistory.toList();
-    final seikaiList = seikaiHistory.toList();
-    final userAnsList = userAnsHistory.toList();
-
-    for (int i = 0; i < mondaiList.length; i++) {
-      final entry = mondaiList[i].entries.first;
-      history.add(
-        QuizLog(
-          mondai: entry.key,
-          options: entry.value,
-          userAns: userAnsList[i],
-          seikai: seikaiList[i],
-        ),
-      );
-    }
-    return history;
   }
 }

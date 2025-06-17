@@ -17,12 +17,6 @@ class NotePage extends StatelessWidget {
       color: theme.colorScheme.onPrimary,
     );
 
-    if (appState.gradeHistoties.isEmpty) {
-      return Center(
-        child: Text('BH is empty.'),
-      );
-    }
-
     return ListView(
       children: [
         Padding(

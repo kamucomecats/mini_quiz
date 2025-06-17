@@ -17,13 +17,10 @@ class NotePage extends StatelessWidget {
       color: theme.colorScheme.onPrimary,
     );
 
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-        ),
-        for (var i = 0; i < appState.gradeHistoties.length; i++)
-          Card(
+    return ListView.builder(
+        itemCount: appState.gradeHistoties.length,
+        itemBuilder: (context, index) {
+          return Card(
             color: theme.colorScheme.primary,
             child: ListTile(
                 title: Row(
@@ -31,7 +28,7 @@ class NotePage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.quizStr[i],
+                    appState.quizStr[index],
                     style: TextStyle(fontSize: 30, color: Colors.white),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -40,15 +37,14 @@ class NotePage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.gradeHistoties[i],
+                    appState.gradeHistoties[index],
                     style: TextStyle(fontSize: 20, color: Colors.white),
                     overflow: TextOverflow.ellipsis,
                   ),
                 )
               ],
             )),
-          ),
-      ],
-    );
+          );
+        });
   }
 }

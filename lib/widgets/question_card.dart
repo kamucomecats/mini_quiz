@@ -6,9 +6,11 @@ class Question extends StatelessWidget {
   const Question({
     super.key,
     required this.appState,
+    required this.index,
   });
 
   final QuizState appState;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -17,31 +19,45 @@ class Question extends StatelessWidget {
       color: theme.colorScheme.onPrimary,
     );
 
+    Color cardColor;
+
+    print('card');
+
+    if (appState.quizLogs.elementAt(index).seikai == null) {
+      cardColor = theme.colorScheme.primary;
+    } else if (appState.quizLogs.elementAt(index).seikai == true) {
+      cardColor = Colors.red;
+    } else {
+      cardColor = Colors.blue;
+    }
+
     return SizedBox(
       width: 300,
       child: Card(
-        color: theme.colorScheme.primary,
+        color: cardColor,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              SizedBox(
-                width: 300,
-                height: 30,
-                child: Text('No.${appState.id}',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),),
-              ),
-              ResponsiveText(
-                text: appState.mondai,
-                 baseStyle: style,
-                 maxFontSize: style.fontSize ?? 30,
-                 minFontSize: 24,),
-            ],
-          )
-        ),
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 300,
+                  height: 30,
+                  child: Text(
+                    'No.${appState.quizLogs.elementAt(index).id}',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                ResponsiveText(
+                  text: appState.quizLogs.elementAt(index).mondai,
+                  baseStyle: style,
+                  maxFontSize: style.fontSize ?? 30,
+                  minFontSize: 24,
+                ),
+              ],
+            )),
       ),
     );
   }

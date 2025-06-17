@@ -27,7 +27,7 @@ class QuizPage extends StatelessWidget {
                       reverse: true,
                   itemCount: 5,
                   itemBuilder: (context, index) {
-                    return Question(appState: appState);
+                    return Question(appState: appState, index: index,);
                   },
                 )),
                 Option(

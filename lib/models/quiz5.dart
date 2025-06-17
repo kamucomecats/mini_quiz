@@ -122,6 +122,8 @@ class Quiz5 {
   }
 
   //設問ごとの正誤履歴をUI表示用にString化
+  //最初にQueueの長さを見る、bool出てるやつはT/F対応
+  //残りは黒の四角で埋める
   List<String> gradeHistoryToStr() {
     List<String> gradeHistoryStrs = [];
     for (int i = 0; i < quiz5.length; i++) {

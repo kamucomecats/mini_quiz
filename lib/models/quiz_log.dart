@@ -1,3 +1,5 @@
+///define quiz_log shape
+
 class QuizLog {
   final int id;
   final String mondai;

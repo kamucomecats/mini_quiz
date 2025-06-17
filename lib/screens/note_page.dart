@@ -9,16 +9,18 @@ class NotePage extends StatelessWidget {
 
   final QuizState appState;
 
+  ///styleはあとで使うかも
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<QuizState>();
     final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
+/*    final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
+*/
 
     return ListView.builder(
-        itemCount: appState.gradeHistoties.length,
+        itemCount: appState.gradeHistories.length,
         itemBuilder: (context, index) {
           return Card(
             color: theme.colorScheme.primary,
@@ -37,7 +39,7 @@ class NotePage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.gradeHistoties[index],
+                    appState.gradeHistories[index],
                     style: TextStyle(fontSize: 20, color: Colors.white),
                     overflow: TextOverflow.ellipsis,
                   ),

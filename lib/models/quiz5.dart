@@ -129,19 +129,16 @@ class Quiz5 {
     for (int i = 0; i < quiz5.length; i++) {
       String gradeHistoryStr = '';
       for (int j = 0; j < gradeHistory[i].length; j++) {
-        switch (gradeHistory[i].elementAt(j)) {
-          case true:
-            gradeHistoryStr = '$gradeHistoryStr' '✅';
-            break;
-          case false:
-            gradeHistoryStr = '$gradeHistoryStr' '❌';
-            break;
+        if (gradeHistory[i].elementAt(j)) {
+          gradeHistoryStr += '✅';
+        } else {
+          gradeHistoryStr += '❌';
         }
       }
-      for (int j = 0; j < gradeHistoryMax - gradeHistory[i].length;j++){
+      for (int j = 0; j < gradeHistoryMax - gradeHistory[i].length; j++) {
         gradeHistoryStr = '$gradeHistoryStr' '⬛';
       }
-        gradeHistoryStrs.add(gradeHistoryStr);
+      gradeHistoryStrs.add(gradeHistoryStr);
     }
     return gradeHistoryStrs;
   }
@@ -158,22 +155,22 @@ class Quiz5 {
   var count = 0;
   final optionsNum = 4;
 
-  //randKeysのあとで呼ぶ
+  ///randKeysのあとで呼ぶ3関数(必ず同時に)
+  ///getNextMondaiIndex, getNextMondai, getNextOptions
+  ///表示することを前提としている3要素をListから出す
   int getNextMondaiIndex() {
     return randQuestionsIndex[count] + 1;
   }
 
-  //randKeysのあとで呼ぶ
   String getNextMondai() {
     return randQuestions[count];
   }
 
-  //randKeysのあとで呼ぶ
   List<String> getNextOptions() {
     return randAnswers[count];
   }
 
-  //count進数制御、update
+  //count、[size]進数制御、update
   void increment() {
     count++;
     if (count >= size) {
@@ -186,7 +183,8 @@ class Quiz5 {
   List<String> randQuestions = [];
   List<List<String>> randAnswers = [];
 
-  //randIds + randQuestions + randOptions update
+  ///randIds + randQuestions + randOptions
+  ///size分まとめて生成(=重複なしのメリット)
   void update() {
     //randQuestionsUpdate
     randQuestionsIndex = List.generate(quiz5.length, (i) => i).toList()

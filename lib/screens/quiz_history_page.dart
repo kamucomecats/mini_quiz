@@ -17,7 +17,7 @@ class QuizHisPage extends StatelessWidget {
       color: theme.colorScheme.onPrimary,
     );
 
-    if (appState.gradeHistoties.isEmpty) {
+    if (appState.gradeHistories.isEmpty) {
       return Center(
         child: Text('BH is empty.'),
       );
@@ -28,7 +28,7 @@ class QuizHisPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(20),
         ),
-        for (var i = 0; i < appState.gradeHistoties.length; i++)
+        for (var i = 0; i < appState.gradeHistories.length; i++)
           Card(
             color: theme.colorScheme.primary,
             child: ListTile(
@@ -46,7 +46,7 @@ class QuizHisPage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.gradeHistoties[i],
+                    appState.gradeHistories[i],
                     style: style,
                     overflow: TextOverflow.ellipsis,
                   ),

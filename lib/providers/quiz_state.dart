@@ -19,7 +19,7 @@ class QuizState extends ChangeNotifier {
   int lifeCount = 20; //残りライフ
 
   List<String> get quizStr => _quiz.keys.toList();
-  List<String> gradeHistoties = []; //問題ごとの正誤履歴
+  List<String> gradeHistories = []; //問題ごとの正誤履歴
   Queue<QuizLog> quizLogs = Queue(); //問題ごとの正誤履歴
   int get gradeHistoryMax => _quiz.gradeHistoryMax; //の保存数
   int get quizLogMax => _quiz.quizLogMax; //の保存数
@@ -47,7 +47,7 @@ class QuizState extends ChangeNotifier {
     print(mondai);
     print(options);
     print(newLog);
-    gradeHistoties = _quiz.gradeHistoryToStr();
+    gradeHistories = _quiz.gradeHistoryToStr();
     _quiz.increment(); //contains update
     notifyListeners();
   }
@@ -58,7 +58,7 @@ class QuizState extends ChangeNotifier {
     print('sendUserIndex');
     var seikai = _quiz.isCorrect(userAns, mondai, options);
     if (seikai == false && lifeCount > 0) {
-      lifeCount = lifeCount - 1;
+      lifeCount = lifeCount--;
     }
     if (newLog != null) {
       _addQuizLog(userAns, seikai);

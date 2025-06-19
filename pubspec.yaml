@@ -23,3 +23,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+   - family: NotoSans
+     fonts:
+      - asset: fonts/NotoSansJP-VariableFont_wght.ttf
+        style: normal

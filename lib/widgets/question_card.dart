@@ -18,11 +18,31 @@ class Question extends StatefulWidget {
 
 class _Questionstate extends State<Question> {
   bool _showExplain = false;
+  int? _lastquestionid;
 
   void _toggleExplain() {
     setState(() {
       _showExplain = !_showExplain;
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant Question oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final currentId = widget.appState.quizLogs.elementAt(widget.index).id;
+    if (_lastquestionid != currentId) {
+      setState(() {
+        _showExplain = false;
+        _lastquestionid = currentId;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _lastquestionid = widget.appState.quizLogs.elementAt(widget.index).id;
   }
 
   @override
@@ -32,19 +52,22 @@ class _Questionstate extends State<Question> {
       color: theme.colorScheme.onPrimary,
     );
     final qLog = widget.appState.quizLogs.elementAt(widget.index);
+    if (qLog.seikai == null && _showExplain) {
+      _showExplain = false;
+    }
 
     Color cardColor;
 
     if (qLog.seikai == null) {
       cardColor = theme.colorScheme.primary;
     } else if (qLog.seikai == true) {
-      cardColor = Colors.red;
+      cardColor = Colors.green;
     } else {
-      cardColor = Colors.blue;
+      cardColor = Colors.red;
     }
 
     return InkWell(
-      onTap: qLog.seikai != null ? _toggleExplain: null,
+      onTap: qLog.seikai != null ? _toggleExplain : null,
       child: SizedBox(
         width: 300,
         child: Card(
@@ -76,7 +99,8 @@ class _Questionstate extends State<Question> {
                           children: [
                             Text(
                               qLog.options[qLog.userAns!],
-                              style: TextStyle(color: Colors.white, fontSize: 24),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 24, fontFamily: 'Noto Sans Japanese'),
                             ),
                           ],
                         )
@@ -84,7 +108,7 @@ class _Questionstate extends State<Question> {
                   if (_showExplain)
                     Text(
                       qLog.kaisetu,
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'NotoSans', fontWeight: FontWeight.w900),
                     ),
                 ],
               )),

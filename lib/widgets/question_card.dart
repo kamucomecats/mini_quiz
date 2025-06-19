@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mini_quiz/providers/quiz_state.dart';
 import 'responsive_text.dart';
-import '../models/quiz_log.dart';
 
-class Question extends StatelessWidget {
+class Question extends StatefulWidget {
   const Question({
     super.key,
     required this.appState,
@@ -14,16 +13,27 @@ class Question extends StatelessWidget {
   final int index;
 
   @override
+  State<Question> createState() => _Questionstate();
+}
+
+class _Questionstate extends State<Question> {
+  bool _showExplain = false;
+
+  void _toggleExplain() {
+    setState(() {
+      _showExplain = !_showExplain;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
-    final qLog = appState.quizLogs.elementAt(index);
+    final qLog = widget.appState.quizLogs.elementAt(widget.index);
 
     Color cardColor;
-
-    print('card');
 
     if (qLog.seikai == null) {
       cardColor = theme.colorScheme.primary;
@@ -33,44 +43,52 @@ class Question extends StatelessWidget {
       cardColor = Colors.blue;
     }
 
-    return SizedBox(
-      width: 300,
-      child: Card(
-        color: cardColor,
-        child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 300,
-                  height: 30,
-                  child: Text(
-                    'No.${qLog.id}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
+    return InkWell(
+      onTap: qLog.seikai != null ? _toggleExplain: null,
+      child: SizedBox(
+        width: 300,
+        child: Card(
+          color: cardColor,
+          child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 300,
+                    height: 30,
+                    child: Text(
+                      'No.${qLog.id}',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-                ResponsiveText(
-                  text: qLog.mondai,
-                  baseStyle: style,
-                  maxFontSize: style.fontSize ?? 30,
-                  minFontSize: 24,
-                ),
-                qLog.seikai != null
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            qLog.options[qLog.userAns!],
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                          ),
-                        ],
-                      )
-                    : SizedBox.shrink(),
-              ],
-            )),
+                  ResponsiveText(
+                    text: qLog.mondai,
+                    baseStyle: style,
+                    maxFontSize: style.fontSize ?? 30,
+                    minFontSize: 24,
+                  ),
+                  qLog.seikai != null
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              qLog.options[qLog.userAns!],
+                              style: TextStyle(color: Colors.white, fontSize: 24),
+                            ),
+                          ],
+                        )
+                      : SizedBox.shrink(),
+                  if (_showExplain)
+                    Text(
+                      qLog.kaisetu,
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                ],
+              )),
+        ),
       ),
     );
   }

@@ -28,61 +28,71 @@ class Quiz5 {
       "did we realize",
       "we realized",
       "realized we",
-      "we had realized"
+      "we had realized",
+      "この文は倒置構文（inversion）の一種です。「Only after」などの否定的または制限的副詞句が文頭に来ると、倒置が起きます。正しい語順は『did + 主語 + 動詞』で、did we realize が正解。これは強調や文体的なフォーマルさを加える目的で使われます。"
     ],
     "If she ___ the deadline, she would have received the bonus.": [
       "had met",
       "met",
       "would meet",
-      "meets"
+      "meets",
+      "これは仮定法過去完了の構文です。『would have + 過去分詞』は「過去に起こらなかったこと」に対する仮定を表します。条件節では『had + 過去分詞』を使います。したがって正解は had met。"
     ],
     "It is crucial that every employee ___ the safety procedures.": [
       "follow",
       "follows",
       "followed",
-      "will follow"
+      "will follow",
+      "この文は仮定法現在（subjunctive mood）を使う構文です。demand, suggest, recommend, crucial などの語に続く that節では、主語が三人称でも動詞の原形を使います（例：that he go, that she arrive）。したがって正解は follow。"
     ],
     "Scarcely had they entered the room ___ the lights went out.": [
       "when",
       "than",
       "as",
-      "so"
+      "so",
+      "『Scarcely...when』は倒置構文＋時間の慣用表現です。「～したとたんに...した」という意味で、接続詞には when が使われます（No sooner...than / Hardly...when / Scarcely...when などの表現と同様の構造）。"
     ],
     "I wish I ___ more time to finish this report.": [
       "had",
       "have",
       "would have",
-      "will have"
+      "will have",
+      "これは仮定法過去の表現で、現実とは異なる願望を述べるときに使われます。『I wish I had...』は「〜だったらよかったのに／〜ならいいのに」という意味。時制は実際より一段過去に下げます。"
     ],
     "Not until next week ___ the new manager start working.": [
       "will",
       "does",
       "is",
-      "did"
+      "did",
+      "『Not until 〜』で始まる文は倒置構文になります。通常文『The new manager will start working next week』において、副詞句を前に出すことで『Not until next week will the new manager start working』という倒置が生じます。"
     ],
     "The professor suggested that the students ___ more primary sources.": [
       "use",
       "uses",
       "used",
-      "will use"
+      "will use",
+      "suggestなどの動詞の後に続く that節では、主語にかかわらず動詞の原形を用いる仮定法現在が用いられます。したがって『that the students use』が正しい構文です（三単現でも原形）。"
     ],
     "Were I ___ the opportunity, I would gladly take the position.": [
       "given",
       "giving",
       "give",
-      "gives"
+      "gives",
+      "これは倒置構文を使った仮定法です。通常文『If I were given the opportunity』の倒置形で、『Were I + 過去分詞』という形になります。これは公式な文体でよく用いられる形式です。"
     ],
     "Little ___ about the new project until the official announcement.": [
       "did we know",
       "we knew",
       "we know",
-      "knowing we"
+      "knowing we",
+      "この文も倒置構文です。『Little』が文頭に来ると否定的意味を持つため、疑問文と同じ語順が求められます（助動詞 + 主語 + 動詞）。正解は『did we know』。"
     ],
     "If only he ___ earlier about the schedule change!": [
       "had known",
       "knows",
       "knew",
-      "would know"
+      "would know",
+      "『If only + 過去完了形』は過去に対する強い後悔や願望を表します。『If only he had known』で「彼が知っていたらよかったのに」という意味になります。"
     ],
   };
 
@@ -170,6 +180,10 @@ class Quiz5 {
     return randAnswers[count];
   }
 
+  String getNextKaisetu() {
+    return randKaisetu[count];
+  }
+
   //count、[size]進数制御、update
   void increment() {
     count++;
@@ -182,6 +196,7 @@ class Quiz5 {
   List<int> randQuestionsIndex = [];
   List<String> randQuestions = [];
   List<List<String>> randAnswers = [];
+  List<String> randKaisetu = [];
 
   ///randIds + randQuestions + randOptions
   ///size分まとめて生成(=重複なしのメリット)
@@ -197,11 +212,19 @@ class Quiz5 {
 
     //randOptionsUpdate
     randAnswers = [];
+
     for (int i = 0; i < size; i++) {
       final key = randQuestions[i];
-      List<String> randAnswersMini = [...quiz5[key]!];
+      List<String> randAnswersMini = [...quiz5[key]!].sublist(0, 4);
       randAnswersMini.shuffle();
       randAnswers.add(randAnswersMini);
+    }
+
+    //randKaisetuUpdate
+    randKaisetu = [];
+    const kaisetuIndex = 4;
+    for (var i in randQuestions) {
+      randKaisetu.add(quiz5[i]![kaisetuIndex]);
     }
     return;
   }

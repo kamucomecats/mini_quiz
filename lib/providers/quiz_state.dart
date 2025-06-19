@@ -16,6 +16,7 @@ class QuizState extends ChangeNotifier {
   int id = 0;
   String mondai = ''; //問題文
   List<String> options = []; //選択肢
+  String kaisetu = ''; //解説文
   int lifeCount = 20; //残りライフ
 
   List<String> get quizStr => _quiz.keys.toList();
@@ -31,17 +32,16 @@ class QuizState extends ChangeNotifier {
   QuizLog? newLog;
 
   void answer(int index) {
-    print('answer');
     _sendUserIndex(index);
     _setNext();
   }
 
   void _setNext() {
-    print('setNext');
     id = _quiz.getNextMondaiIndex();
     mondai = _quiz.getNextMondai();
     options = _quiz.getNextOptions();
-    newLog = _makeLog(id, mondai, options);
+    kaisetu = _quiz.getNextKaisetu();
+    newLog = _makeLog(id, mondai, options, kaisetu);
     _enqQuizLog(newLog!);
     print(id);
     print(mondai);
@@ -55,10 +55,9 @@ class QuizState extends ChangeNotifier {
   //答え終わったあとに必ず通る、option_buttonに呼ばれる
   //正誤判定の呼び出し + 履歴更新の呼び出し + ライフの更新
   void _sendUserIndex(int userAns) {
-    print('sendUserIndex');
     var seikai = _quiz.isCorrect(userAns, mondai, options);
     if (seikai == false && lifeCount > 0) {
-      lifeCount = lifeCount--;
+      lifeCount--;
     }
     if (newLog != null) {
       _addQuizLog(userAns, seikai);
@@ -67,15 +66,13 @@ class QuizState extends ChangeNotifier {
     _quiz.gradeHistoryUpdate(mondai, seikai);
   }
 
-  QuizLog _makeLog(int id, String mondai, List<String> options) {
-    print('make');
+  QuizLog _makeLog(int id, String mondai, List<String> options, String kaisetu) {
     QuizLog newLog = QuizLog(
-        id: id, mondai: mondai, options: options, userAns: null, seikai: null);
+        id: id, mondai: mondai, options: options, kaisetu: kaisetu, userAns: null, seikai: null);
     return newLog;
   }
 
   void _enqQuizLog(QuizLog newLog) {
-    print('enq');
     if (quizLogs.length >= quizLogMax) {
       quizLogs.removeLast();
     }
@@ -83,7 +80,6 @@ class QuizState extends ChangeNotifier {
   }
 
   void _addQuizLog(int userAns, bool seikai) {
-    print('add');
     quizLogs.first.userAns = userAns;
     quizLogs.first.seikai = seikai;
   }

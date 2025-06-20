@@ -6,12 +6,12 @@
 //含まれるもの
 
 import 'package:flutter/material.dart';
-import 'package:mini_quiz/models/quiz5.dart';
+import 'package:mini_quiz/models/quiz6.dart';
 import 'package:mini_quiz/models/quiz_log.dart';
 import 'dart:collection';
 
 class QuizState extends ChangeNotifier {
-  final _quiz = Quiz5(); //まだquizとquiz5間で互換性あり
+  final _quiz = Quiz6(); //まだquizとquiz5間で互換性あり
 
   int id = 0;
   String mondai = ''; //問題文
@@ -66,9 +66,15 @@ class QuizState extends ChangeNotifier {
     _quiz.gradeHistoryUpdate(mondai, seikai);
   }
 
-  QuizLog _makeLog(int id, String mondai, List<String> options, String kaisetu) {
+  QuizLog _makeLog(
+      int id, String mondai, List<String> options, String kaisetu) {
     QuizLog newLog = QuizLog(
-        id: id, mondai: mondai, options: options, kaisetu: kaisetu, userAns: null, seikai: null);
+        id: id,
+        mondai: mondai,
+        options: options,
+        kaisetu: kaisetu,
+        userAns: null,
+        seikai: null);
     return newLog;
   }
 

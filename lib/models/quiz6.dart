@@ -17,13 +17,13 @@ import 'quiz_log.dart';
 
 //quizの4択を指定可能にしたversion
 
-class Quiz5 {
-  Quiz5() {
-    _mapToList(quiz5);
+class Quiz6 {
+  Quiz6() {
+    _mapToList(quiz6);
     update();
   }
 
-  final Map<String, List<String>> quiz5 = {
+  final Map<String, List<String>> quiz6 = {
     "Only after the meeting ___ that the project had been approved.": [
       "did we realize",
       "we realized",
@@ -111,7 +111,7 @@ class Quiz5 {
     var countPrevious = count - 1;
     if (countPrevious == -1) countPrevious = size - 1;
 
-    if (quiz5[mondai]![0] == options[userAns]) {
+    if (quiz6[mondai]![0] == options[userAns]) {
       return true;
     }
     return false;
@@ -119,7 +119,7 @@ class Quiz5 {
 
   //正誤履歴の初期化、全部の問題をboolの空queue(=未回答)で埋める
   late List<Queue<bool>> gradeHistory =
-      List.generate(quiz5.length, (_) => Queue<bool>());
+      List.generate(quiz6.length, (_) => Queue<bool>());
 
   //gradeHistory List<Queue<int>>
   //設問ごとの正誤履歴
@@ -136,7 +136,7 @@ class Quiz5 {
   //残りは黒の四角で埋める
   List<String> gradeHistoryToStr() {
     List<String> gradeHistoryStrs = [];
-    for (int i = 0; i < quiz5.length; i++) {
+    for (int i = 0; i < quiz6.length; i++) {
       String gradeHistoryStr = '';
       for (int j = 0; j < gradeHistory[i].length; j++) {
         if (gradeHistory[i].elementAt(j)) {
@@ -202,7 +202,7 @@ class Quiz5 {
   ///size分まとめて生成(=重複なしのメリット)
   void update() {
     //randQuestionsUpdate
-    randQuestionsIndex = List.generate(quiz5.length, (i) => i).toList()
+    randQuestionsIndex = List.generate(quiz6.length, (i) => i).toList()
       ..shuffle();
     randQuestionsIndex = randQuestionsIndex.take(size).toList();
     randQuestions = [];
@@ -215,7 +215,7 @@ class Quiz5 {
 
     for (int i = 0; i < size; i++) {
       final key = randQuestions[i];
-      List<String> randAnswersMini = [...quiz5[key]!].sublist(0, 4);
+      List<String> randAnswersMini = [...quiz6[key]!].sublist(0, 4);
       randAnswersMini.shuffle();
       randAnswers.add(randAnswersMini);
     }
@@ -224,7 +224,7 @@ class Quiz5 {
     randKaisetu = [];
     const kaisetuIndex = 4;
     for (var i in randQuestions) {
-      randKaisetu.add(quiz5[i]![kaisetuIndex]);
+      randKaisetu.add(quiz6[i]![kaisetuIndex]);
     }
     return;
   }

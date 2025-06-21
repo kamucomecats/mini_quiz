@@ -17,7 +17,7 @@ class QuizState extends ChangeNotifier {
   String mondai = ''; //問題文
   List<String> options = []; //選択肢
   String kaisetu = ''; //解説文
-  int lifeCount = 20; //残りライフ
+  int lifeCount = 200; //残りライフ
 
   List<String> get quizStr => _quiz.keys.toList();
   List<String> gradeHistories = []; //問題ごとの正誤履歴

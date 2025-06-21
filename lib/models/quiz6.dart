@@ -24,76 +24,216 @@ class Quiz6 {
   }
 
   final Map<String, List<String>> quiz6 = {
-    "Only after the meeting ___ that the project had been approved.": [
-      "did we realize",
-      "we realized",
-      "realized we",
-      "we had realized",
-      "この文は倒置構文（inversion）の一種です。「Only after」などの否定的または制限的副詞句が文頭に来ると、倒置が起きます。正しい語順は『did + 主語 + 動詞』で、did we realize が正解。これは強調や文体的なフォーマルさを加える目的で使われます。"
+    "The company is looking for a candidate with strong ___ skills.": [
+      "organization",
+      "organize",
+      "organized",
+      "organizing",
+      "名詞の “skills” を修飾するには、名詞である “organization” が適切。他の選択肢は動詞や形容詞で文構造に合わない。"
     ],
-    "If she ___ the deadline, she would have received the bonus.": [
-      "had met",
-      "met",
-      "would meet",
-      "meets",
-      "これは仮定法過去完了の構文です。『would have + 過去分詞』は「過去に起こらなかったこと」に対する仮定を表します。条件節では『had + 過去分詞』を使います。したがって正解は had met。"
+    "We need to finish the report as ___ as possible.": [
+      "quickly",
+      "quick",
+      "quickest",
+      "quickness",
+      "“as ___ as” 構文では副詞が必要。“quickly” が正解。他は形容詞や名詞で文法的に不適切。"
     ],
-    "It is crucial that every employee ___ the safety procedures.": [
-      "follow",
-      "follows",
-      "followed",
-      "will follow",
-      "この文は仮定法現在（subjunctive mood）を使う構文です。demand, suggest, recommend, crucial などの語に続く that節では、主語が三人称でも動詞の原形を使います（例：that he go, that she arrive）。したがって正解は follow。"
+    "Her ___ helped the team reach a difficult goal.": [
+      "motivation",
+      "motivate",
+      "motivated",
+      "motivating",
+      "文中の “helped” の主語になる語が必要なので名詞 “motivation” が正解。他は動詞・形容詞。"
     ],
-    "Scarcely had they entered the room ___ the lights went out.": [
-      "when",
-      "than",
-      "as",
-      "so",
-      "『Scarcely...when』は倒置構文＋時間の慣用表現です。「～したとたんに...した」という意味で、接続詞には when が使われます（No sooner...than / Hardly...when / Scarcely...when などの表現と同様の構造）。"
+    "The software runs more ___ on the new system.": [
+      "efficiently",
+      "efficient",
+      "efficiency",
+      "efficacious",
+      "“runs” を修飾する語は副詞なので “efficiently” が正解。他は形容詞や名詞。"
     ],
-    "I wish I ___ more time to finish this report.": [
-      "had",
-      "have",
-      "would have",
-      "will have",
-      "これは仮定法過去の表現で、現実とは異なる願望を述べるときに使われます。『I wish I had...』は「〜だったらよかったのに／〜ならいいのに」という意味。時制は実際より一段過去に下げます。"
+    "He has been very ___ in handling customer complaints.": [
+      "responsive",
+      "respond",
+      "response",
+      "responding",
+      "“very” の後ろには形容詞が来るので “responsive” が正解。意味的にも文脈に合う。"
     ],
-    "Not until next week ___ the new manager start working.": [
-      "will",
-      "does",
-      "is",
-      "did",
-      "『Not until 〜』で始まる文は倒置構文になります。通常文『The new manager will start working next week』において、副詞句を前に出すことで『Not until next week will the new manager start working』という倒置が生じます。"
+    "The manager asked for a detailed ___ of the problem.": [
+      "explanation",
+      "explain",
+      "explaining",
+      "explained",
+      "冠詞 “a” と形容詞 “detailed” があるため、名詞 “explanation” が必要。他は動詞・形容詞。"
     ],
-    "The professor suggested that the students ___ more primary sources.": [
-      "use",
-      "uses",
-      "used",
-      "will use",
-      "suggestなどの動詞の後に続く that節では、主語にかかわらず動詞の原形を用いる仮定法現在が用いられます。したがって『that the students use』が正しい構文です（三単現でも原形）。"
+    "The employee was ___ for repeatedly arriving late.": [
+      "criticized",
+      "criticize",
+      "critical",
+      "criticizing",
+      "受動態 “was ___” に続く過去分詞 “criticized” が正解。他は動詞・形容詞などで文構造に合わない。"
     ],
-    "Were I ___ the opportunity, I would gladly take the position.": [
-      "given",
-      "giving",
-      "give",
-      "gives",
-      "これは倒置構文を使った仮定法です。通常文『If I were given the opportunity』の倒置形で、『Were I + 過去分詞』という形になります。これは公式な文体でよく用いられる形式です。"
+    "We are pleased to announce the ___ of our new product line.": [
+      "launch",
+      "launcher",
+      "launching",
+      "launched",
+      "名詞として文構造に合い、“the ___ of” に続く語は “launch” が自然。他は語法的に不自然。"
     ],
-    "Little ___ about the new project until the official announcement.": [
-      "did we know",
-      "we knew",
-      "we know",
-      "knowing we",
-      "この文も倒置構文です。『Little』が文頭に来ると否定的意味を持つため、疑問文と同じ語順が求められます（助動詞 + 主語 + 動詞）。正解は『did we know』。"
+    "Her ___ approach impressed the interviewers.": [
+      "professional",
+      "profession",
+      "professionally",
+      "professionalism",
+      "名詞 “approach” を修飾する形容詞 “professional” が正解。他は名詞や副詞で文法的に不自然。"
     ],
-    "If only he ___ earlier about the schedule change!": [
-      "had known",
-      "knows",
-      "knew",
-      "would know",
-      "『If only + 過去完了形』は過去に対する強い後悔や願望を表します。『If only he had known』で「彼が知っていたらよかったのに」という意味になります。"
+    "Our team worked ___ to complete the project ahead of schedule.": [
+      "hard",
+      "hardly",
+      "harder",
+      "hardest",
+      "“worked” を修飾する副詞が必要。意味的にも “hard”（一生懸命）が自然。“hardly” は「ほとんど〜ない」で意味が逆。"
     ],
+    "The CEO made a very ___ speech at the annual meeting.": [
+      "inspiring",
+      "inspiration",
+      "inspire",
+      "inspired",
+      "“a very ___ speech” に入る形容詞 “inspiring” が正解。名詞や他の形容詞では意味が不自然。"
+    ],
+    "We received ___ confirmation from the supplier.": [
+      "official",
+      "officially",
+      "officiate",
+      "office",
+      "“confirmation” を修飾する語は形容詞 “official” が適切。副詞や名詞は不適。"
+    ],
+    "The new intern is extremely ___ and eager to learn.": [
+      "motivated",
+      "motivate",
+      "motivating",
+      "motivation",
+      "“extremely” が形容詞を修飾するため、“motivated” が自然で意味も合う。"
+    ],
+    "Please submit your ___ application by the end of the week.": [
+      "completed",
+      "complete",
+      "completing",
+      "completion",
+      "“application” を修飾する過去分詞 “completed” が自然。名詞や進行形は文脈に合わない。"
+    ],
+    "The team ___ the new procedures quickly.": [
+      "adapted",
+      "adaptable",
+      "adapting",
+      "adaptation",
+      "動詞が必要な位置。“the team” が主語なので動詞 “adapted” が正解。"
+    ],
+    "Our sales have increased ___ over the last quarter.": [
+      "significantly",
+      "significance",
+      "significant",
+      "signify",
+      "副詞 “significantly” が “increased” を修飾する。文法的にも意味的にも正解。"
+    ],
+    "The product's ___ design makes it popular among users.": [
+      "innovative",
+      "innovation",
+      "innovate",
+      "innovating",
+      "名詞 “design” を修飾する形容詞 “innovative” が正解。他は名詞や動詞で不適切。"
+    ],
+    "He spoke so ___ that the audience applauded him twice.": [
+      "persuasively",
+      "persuasion",
+      "persuasive",
+      "persuade",
+      "“spoke” を修飾する副詞 “persuasively” が適切。他は名詞や形容詞。"
+    ],
+    "There was a brief ___ in the middle of the presentation.": [
+      "interruption",
+      "interrupt",
+      "interrupted",
+      "interrupting",
+      "“a brief ___” の語法では名詞が必要 → “interruption” が正解。"
+    ],
+    "The building is not ___ to the public during renovations.": [
+      "accessible",
+      "access",
+      "accessed",
+      "accessing",
+      "形容詞 “accessible” が文脈と構文に合う。他は動詞形で意味が不自然。"
+    ],
+    "The new equipment improved overall ___ and reliability.": [
+      "performance",
+      "perform",
+      "performing",
+      "performed",
+      "“improved overall ___ and reliability” の構造から、名詞 “performance” が必要。他は動詞または動詞形容詞で不適。"
+    ],
+    "He is known for his ___ and attention to detail.": [
+      "thoroughness",
+      "thorough",
+      "thoroughly",
+      "though",
+      "“his ___ and attention” という並列構造に合う名詞 “thoroughness” が正解。"
+    ],
+    "The company is seeking ___ from its employees about the new policy.": [
+      "feedback",
+      "feed",
+      "feeding",
+      "fed",
+      "“seeking ___” に入る名詞として自然なのは “feedback”。他は動詞または形容動詞で不適。"
+    ],
+    "The supervisor was very ___ with the final results.": [
+      "satisfied",
+      "satisfy",
+      "satisfaction",
+      "satisfactory",
+      "“was very ___” の構文に合う過去分詞 “satisfied” が正解。他は名詞・動詞で文構造に合わない。"
+    ],
+    "This software is not ___ with older operating systems.": [
+      "compatible",
+      "compatibility",
+      "compatibly",
+      "comparing",
+      "“is not ___ with” の構文から、形容詞 “compatible” が適切。他は意味・文法上不自然。"
+    ],
+    "The meeting was both informative and ___.": [
+      "productive",
+      "product",
+      "producing",
+      "production",
+      "“informative and ___” で並列に形容詞が必要。“productive” が正解。"
+    ],
+    "The manager gave a ___ summary at the end of the discussion.": [
+      "concise",
+      "concisely",
+      "conclusion",
+      "concluded",
+      "“a ___ summary” に入る形容詞 “concise” が正解。他は副詞や名詞で文構造に合わない。"
+    ],
+    "The director wants a more ___ approach to marketing.": [
+      "strategic",
+      "strategize",
+      "strategy",
+      "strategically",
+      "“a more ___ approach” の構文に合う形容詞 “strategic” が正解。"
+    ],
+    "Their ___ helped the company reach record profits.": [
+      "collaboration",
+      "collaborate",
+      "collaborating",
+      "collaborated",
+      "“Their ___ helped…” に続く主語としての名詞 “collaboration” が正解。"
+    ],
+    "All team members must follow the safety ___.": [
+      "regulations",
+      "regulate",
+      "regulatory",
+      "regulated",
+      "“the safety ___” に合う複数形の名詞 “regulations” が適切。他は動詞や形容詞で不適切。"
+    ]
   };
 
   //seigoHyo[quizIndex][recent correct ans rate(?? times)]
@@ -161,7 +301,7 @@ class Quiz6 {
     return;
   }
 
-  final size = 5;
+  final size = 20;
   var count = 0;
   final optionsNum = 4;
 

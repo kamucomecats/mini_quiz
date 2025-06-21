@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_quiz/models/quiz6.dart';
 import 'package:mini_quiz/models/quiz_log.dart';
 import 'dart:collection';
+import 'package:mini_quiz/util/text_speaker.dart';
 
 class QuizState extends ChangeNotifier {
   final _quiz = Quiz6(); //まだquizとquiz5間で互換性あり
@@ -36,7 +37,7 @@ class QuizState extends ChangeNotifier {
     _setNext();
   }
 
-  void _setNext() {
+  void _setNext() async {
     id = _quiz.getNextMondaiIndex();
     mondai = _quiz.getNextMondai();
     options = _quiz.getNextOptions();
@@ -50,6 +51,7 @@ class QuizState extends ChangeNotifier {
     gradeHistories = _quiz.gradeHistoryToStr();
     _quiz.increment(); //contains update
     notifyListeners();
+    await _speakStrings(["question$id", toReadableText(mondai), ...options]);
   }
 
   //答え終わったあとに必ず通る、option_buttonに呼ばれる
@@ -89,34 +91,20 @@ class QuizState extends ChangeNotifier {
     quizLogs.first.userAns = userAns;
     quizLogs.first.seikai = seikai;
   }
+
+  Future<void> _speakStrings(List<String> texts) async {
+    await TextSpeaker.stop();
+
+    Future.delayed(const Duration(milliseconds: 100));
+
+    for (final text in texts) {
+      await TextSpeaker.speak(text);
+      print('nowReading:$text');
+      await Future.delayed(Duration(seconds: 1));
+    }
+  }
+
+  String toReadableText(String original) {
+    return original.replaceAll('___', 'blank');
+  }
 }
-
-/*
-[ボタン押下]
-↓
-answer()
-  └ sendUserIndex()
-      └ _addQuizLog() ← 既存の最後のログにuserAnsとseikaiを設定
-  └ _setNext()
-      ├ _makeLog() ← 次の問題のログを空で作る
-      ├ _enqQuizLog() ← quizLogsに積む（先頭に）
-      └ notifyListeners() ← UI再描画
-
-[ListView.builderにより、quizLogsの要素数だけ"card"出力]
-
-現在デバッグ中です。
-OnPressed(option_button.dart)トリガーの動きの一連に取り組んでいます。
-狙いとしては、quizLogに解いた問題データをどんどん追加していくのですが、
-これを問題カード(履歴を兼ねる)に直接対応させています。
-
-カードと対応したquizLogsには[問題、選択肢、回答、正誤]を格納します。
-はじめに問題Aが出題される->もちろん[回答]と[正誤]は未確定->null
-ユーザー回答受け取り->quizLogs.last.userAns...によってデータ追加
-という形を取っています。
-問題は、カードが内部で余計に追加されていそうなところです。
-ログを見るとおり、Cardの増え方が思ったのと違います。(1個ずつ多いはず)
-answerなど呼び出し回数をカウントし、デバッグに取り組んでいるところです。
-
-参考メッセージ：Another exception was thrown: RangeError (index): Index out of range: index should be less than 2: 2
-
-*/

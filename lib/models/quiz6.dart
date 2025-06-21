@@ -242,8 +242,8 @@ class Quiz6 {
   Queue<QuizLog> quizLog = Queue();
   Queue<int> seikaiHistory = Queue();
   Queue<int> userAnsHistory = Queue();
-  final quizLogMax = 5;
-  final gradeHistoryMax = 5;
+  final quizLogMax = 10;
+  final gradeHistoryMax = 3;
 
   //gudge just before quiz
   //return 0 when correct

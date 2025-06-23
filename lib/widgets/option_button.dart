@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_quiz/providers/quiz_state.dart';
+import 'package:mini_quiz/util/text_speaker.dart';
 
 class Option extends StatelessWidget {
   const Option({
@@ -21,17 +22,22 @@ class Option extends StatelessWidget {
       height: 70,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ElevatedButton(
-            onPressed: () {
-              print('Button pressed!');
-              //userIndexは絶対先!!
-              appState.answer(index);
-            },
-            child: FittedBox(
-                child: Text(
-              appState.options[index],
-              style: style,
-            ))),
+        child: GestureDetector(
+          onTapDown: (_) {
+            TextSpeaker.speakOneShot(appState.options[index]);
+          },
+          child: ElevatedButton(
+              onPressed: () {
+                print('Button pressed!');
+                TextSpeaker.stop();//今の音声を中断する
+                appState.answer(index);//userIndexを先に
+              },
+              child: FittedBox(
+                  child: Text(
+                appState.options[index],
+                style: style,
+              ))),
+        ),
       ),
     );
   }

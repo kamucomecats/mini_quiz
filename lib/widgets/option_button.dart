@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mini_quiz/providers/quiz_state.dart';
 import 'package:mini_quiz/util/text_speaker.dart';
 
+
+///Stateから持ってきた選択肢を表示し、押されたら呼び出すだけ
+///OnTapDownで選択肢内容を読み上げる機能を追加中
 class Option extends StatelessWidget {
   const Option({
     super.key,

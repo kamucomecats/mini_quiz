@@ -6,9 +6,10 @@ class TextSpeaker {
   static final FlutterTts _tts = FlutterTts(); // interruptible用
   static String? _currentInterruptibleSessionId;
 
-  static final FlutterTts _oneShotTts = FlutterTts(); // OneShot用
+  static final FlutterTts _oneShotTts = FlutterTts(); // 単発用
   static String? _currentOneShotSessionId;
 
+  /// 複数テキスト読み上げ（問題文＋選択肢）
   static Future<void> speakTextsInterruptible(
     List<String> texts, {
     required String sessionId,
@@ -20,20 +21,19 @@ class TextSpeaker {
     }
 
     await _prepareTts(_tts);
+    await _tts.awaitSpeakCompletion(true);
 
     for (final text in texts) {
       if (_currentInterruptibleSessionId != sessionId) return;
 
       debugPrint("🔊 Speaking: $text");
-
-      final completer = Completer<void>();
       final stopwatch = Stopwatch()..start();
+      final completer = Completer<void>();
 
       _tts.setCompletionHandler(() {
         if (!completer.isCompleted) completer.complete();
         debugPrint("✅ Completed: $text");
-        debugPrint(
-            "🕒 Time since last speak start: ${stopwatch.elapsedMilliseconds} ms");
+        debugPrint("🕒 Time since last speak start: ${stopwatch.elapsedMilliseconds} ms");
       });
 
       _tts.setErrorHandler((msg) {
@@ -44,15 +44,11 @@ class TextSpeaker {
       await _tts.speak(text);
 
       try {
-        await completer.future.timeout(const Duration(seconds: 10),
-            onTimeout: () {
+        await completer.future.timeout(const Duration(seconds: 6), onTimeout: () {
           debugPrint("⏰ Timeout waiting for: $text");
-          _tts.setCompletionHandler(() {}); // nullは禁止
           return;
         });
-      } catch (_) {
-        // タイムアウトが発生しても継続
-      }
+      } catch (_) {}
 
       if (_currentInterruptibleSessionId == sessionId) {
         await Future.delayed(const Duration(milliseconds: 300));
@@ -62,6 +58,7 @@ class TextSpeaker {
     }
   }
 
+  /// 単発読み上げ（選択肢にタップしたとき）
   static Future<void> speakOneShot(String text) async {
     final sessionId = UniqueKey().toString();
     _currentOneShotSessionId = sessionId;

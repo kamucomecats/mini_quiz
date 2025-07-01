@@ -3,6 +3,9 @@ import 'package:mini_quiz/models/quiz6.dart';
 import 'package:mini_quiz/models/quiz_log.dart';
 import 'dart:collection';
 import 'package:mini_quiz/util/text_speaker.dart';
+import 'package:logger/logger.dart';
+
+final logger = Logger();
 
 ///状態管理を担う(QA, Opts, Ans, User, Life)
 ///読み上げを担う
@@ -37,7 +40,10 @@ class QuizState extends ChangeNotifier {
   ///更新、id,QA,Opts,Kaisetu,Log
   void _setNext() async {
     await TextSpeaker.stop();
-
+/*    logger.i("Logger 動作確認：情報ログ");
+    logger.d("Logger 動作確認：デバッグログ");
+    logger.w("Logger 動作確認：警告ログ");
+    logger.e("Logger 動作確認：エラーログ");*/
     id = _quiz.getNextMondaiIndex();
     mondai = _quiz.getNextMondai();
     options = _quiz.getNextOptions();

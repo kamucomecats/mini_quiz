@@ -30,7 +30,7 @@ class NotePage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.fullQuiz[index],
+                    appState.fullQuiz[index].question,
                     style: TextStyle(fontSize: 30, color: Colors.white),
                     overflow: TextOverflow.ellipsis,
                   ),

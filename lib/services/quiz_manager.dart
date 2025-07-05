@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'dart:collection';
 import 'package:mini_quiz/models/quiz_item.dart';
-import 'package:mini_quiz/util/text_speaker.dart';
 
 class QuizManager {
   List<QuizItem> items = [];
@@ -64,12 +63,12 @@ class QuizManager {
   ///成績のString化
   ///履歴
   ///履歴
-  List<String> gradeHistoryToStr(List<dynamic> gradeHistories) {
+  List<String> gradeHistoryToStr(List<Queue<bool>> gradeHistories) {
     List<String> gradeHistoryStrs = [];
     for (int i = 0; i < items.length; i++) {
       String gradeHistoryStr = '';
       for (int j = 0; j < gradeHistories[i].length; j++) {
-        final value = gradeHistories[i].elementAt[j];
+        final value = gradeHistories[i].elementAt(j);
         if (gradeHistories[i].elementAt(j)) {
           gradeHistoryStr += value ? '✅' : '❌';
         }

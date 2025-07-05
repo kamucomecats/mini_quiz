@@ -31,7 +31,6 @@ class Option extends StatelessWidget {
           },
           child: ElevatedButton(
               onPressed: () {
-                print('Button pressed!');
                 TextSpeaker.stop();//今の音声を中断する
                 appState.answer(index);//userIndexを先に
               },

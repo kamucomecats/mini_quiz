@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_quiz/models/quiz_item.dart';
 import 'package:mini_quiz/models/quiz_log.dart';
 import 'package:mini_quiz/services/quiz_manager.dart';
 import 'dart:collection';
@@ -14,12 +15,12 @@ class QuizState extends ChangeNotifier {
   final quizManager = QuizManager();
 
   int id = 0;
-  String mondai = '';
+  String question = '';
   List<String> options = [];
-  String kaisetu = '';
+  String explanation = '';
   int lifeCount = 200;
 
-  List<dynamic> fullQuiz = [];
+  List<QuizItem> get fullQuiz => quizManager.items;
   List<Queue<bool>> gradeHistories = [];
   List<String> gradeHistoriesStr = [];
   Queue<QuizLog> quizLogs = Queue();
@@ -31,7 +32,6 @@ class QuizState extends ChangeNotifier {
   ///状態初期化
   Future<void> init() async {
     await quizManager.loadQuizData();
-    fullQuiz = quizManager.getFullQuiz();
     gradeHistories = quizManager.gradeHistoriesInit();
     _setNext();
     if (quizLogs.elementAt(0).mondai == '') {
@@ -51,30 +51,27 @@ class QuizState extends ChangeNotifier {
   ///更新、id,QA,Opts,Kaisetu,Log
   void _setNext() async {
     await TextSpeaker.stop();
-    await quizManager.loadQuizData();
     final firstQuiz = quizManager.getByIndex(0);
 
-    mondai = firstQuiz.question;
+    question = firstQuiz.question;
     options = firstQuiz.options;
-    kaisetu = firstQuiz.explanation;
+    explanation = firstQuiz.explanation;
 
-    newLog = _makeLog(0, mondai, options, kaisetu);
-    if (newLog == null) {
-      logger.e('newLog is null!');
-    }
+    newLog = _makeLog(0, question, options, explanation);
     _enqQuizLog(newLog!);
     logger.i({quizLogs.elementAt(0).mondai});
 
     gradeHistoriesStr = quizManager.gradeHistoryToStr(gradeHistories);
     notifyListeners();
 
-    await _speakStrings(["question$id", toReadableText(mondai), ...options]);
+    await _speakStrings(["question$id", toReadableText(question), ...options]);
   }
 
   ///多数のパラメータ制御
   ///引数：回答
   ///なし
   void _sendUserIndex(int userAns) {
+    logger.i('sendUserIndex called');
     var seikai = quizManager.isCorrect(id, userAns, options);
     if (!seikai && lifeCount > 0) {
       lifeCount--;

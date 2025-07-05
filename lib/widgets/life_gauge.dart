@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_quiz/providers/quiz_state.dart';
+import 'package:mini_quiz/providers/quiz_state1.dart';
 
 class LifeGauge extends StatelessWidget {
   const LifeGauge({

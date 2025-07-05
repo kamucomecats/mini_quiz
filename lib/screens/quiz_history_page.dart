@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_quiz/providers/quiz_state.dart';
+import 'package:mini_quiz/providers/quiz_state1.dart';
 import 'package:provider/provider.dart';
 
 class QuizHisPage extends StatelessWidget {
@@ -37,7 +37,7 @@ class QuizHisPage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.quizStr[i],
+                    appState.fullQuiz[i],
                     style: style,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -46,7 +46,7 @@ class QuizHisPage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.gradeHistories[i],
+                    appState.gradeHistoriesStr[i],
                     style: style,
                     overflow: TextOverflow.ellipsis,
                   ),

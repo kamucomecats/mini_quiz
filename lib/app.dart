@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:mini_quiz/screens/screens.dart';
 import 'package:provider/provider.dart';
-import 'package:mini_quiz/providers/quiz_state.dart';
+import 'package:mini_quiz/providers/quiz_state1.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

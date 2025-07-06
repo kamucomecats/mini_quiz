@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/services.dart';
 import 'dart:collection';
 import 'package:mini_quiz/models/quiz_item.dart';
+import 'package:mini_quiz/providers/quiz_state1.dart';
 
 class QuizManager {
   List<QuizItem> items = [];
+  final random = Random();
 
   Future<void> loadQuizData() async {
     //jsonをStringとして取り込み
@@ -19,12 +22,6 @@ class QuizManager {
     //logger.i(items[0].question);
   }
 
-  //クイズをまとめて渡す
-  List<QuizItem> getFullQuiz() => items;
-
-  //リスト化されたjson(=item)から、indexでitem(=問題1問)を取り出せるように
-  QuizItem getByIndex(int index) => items[index];
-
   int get length => items.length;
 
   final gradeHistoryMax = 3;
@@ -38,6 +35,9 @@ class QuizManager {
     var countPrevious = count - 1;
     if (countPrevious == -1) countPrevious = size - 1;
 
+    logger.i(items[id].options);
+    logger.i(optionsInQuiz);
+    logger.i(userAns);
     if (items[id].options[0] == optionsInQuiz[userAns]) {
       return true;
     }

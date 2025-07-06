@@ -5,6 +5,7 @@ import 'package:mini_quiz/services/quiz_manager.dart';
 import 'dart:collection';
 import 'package:mini_quiz/util/text_speaker.dart';
 import 'package:logger/logger.dart';
+import 'dart:math';
 
 final logger = Logger();
 
@@ -13,6 +14,7 @@ final logger = Logger();
 class QuizState extends ChangeNotifier {
   //Managerの引き出し
   final quizManager = QuizManager();
+  final random = Random();
 
   int id = 0;
   String question = '';
@@ -51,20 +53,24 @@ class QuizState extends ChangeNotifier {
   ///更新、id,QA,Opts,Kaisetu,Log
   void _setNext() async {
     await TextSpeaker.stop();
-    final firstQuiz = quizManager.getByIndex(0);
+    var randIndex = random.nextInt(fullQuiz.length);
+    final randQuiz = fullQuiz[randIndex];
 
-    question = firstQuiz.question;
-    options = firstQuiz.options;
-    explanation = firstQuiz.explanation;
+    id = randIndex;
+    question = randQuiz.question;
+    options = List<String>.from(randQuiz.options);
+    explanation = randQuiz.explanation;
 
-    newLog = _makeLog(0, question, options, explanation);
+    options.shuffle();
+
+    newLog = _makeLog(id, question, options, explanation);
     _enqQuizLog(newLog!);
-    logger.i({quizLogs.elementAt(0).mondai});
 
     gradeHistoriesStr = quizManager.gradeHistoryToStr(gradeHistories);
     notifyListeners();
 
-    await _speakStrings(["question$id", toReadableText(question), ...options]);
+    await _speakStrings(
+        ["question${id + 1}", toReadableText(question), ...options]);
   }
 
   ///多数のパラメータ制御
@@ -72,6 +78,7 @@ class QuizState extends ChangeNotifier {
   ///なし
   void _sendUserIndex(int userAns) {
     logger.i('sendUserIndex called');
+    logger.i(options);
     var seikai = quizManager.isCorrect(id, userAns, options);
     if (!seikai && lifeCount > 0) {
       lifeCount--;

@@ -37,7 +37,7 @@ class QuizHisPage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.quizStr[i],
+                    appState.fullQuiz[i].question,
                     style: style,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -46,7 +46,7 @@ class QuizHisPage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.gradeHistories[i],
+                    appState.gradeHistoriesStr[i],
                     style: style,
                     overflow: TextOverflow.ellipsis,
                   ),

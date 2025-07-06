@@ -1,34 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:mini_quiz/models/quiz6.dart';
+import 'package:mini_quiz/models/quiz_item.dart';
 import 'package:mini_quiz/models/quiz_log.dart';
+import 'package:mini_quiz/services/quiz_manager.dart';
 import 'dart:collection';
 import 'package:mini_quiz/util/text_speaker.dart';
 import 'package:logger/logger.dart';
+import 'dart:math';
 
 final logger = Logger();
 
 ///状態管理を担う(QA, Opts, Ans, User, Life)
 ///読み上げを担う
 class QuizState extends ChangeNotifier {
-  final _quiz = Quiz6();
+  //Managerの引き出し
+  final quizManager = QuizManager();
+  final random = Random();
 
   int id = 0;
-  String mondai = '';
+  String question = '';
   List<String> options = [];
-  String kaisetu = '';
+  String explanation = '';
   int lifeCount = 200;
 
-  List<String> get quizStr => _quiz.keys.toList();
-  List<String> gradeHistories = [];
+  List<QuizItem> get fullQuiz => quizManager.items;
+  List<Queue<bool>> gradeHistories = [];
+  List<String> gradeHistoriesStr = [];
   Queue<QuizLog> quizLogs = Queue();
-  int get gradeHistoryMax => _quiz.gradeHistoryMax;
-  int get quizLogMax => _quiz.quizLogMax;
+  int get gradeHistoryMax => quizManager.gradeHistoryMax;
+  int get quizLogMax => quizManager.quizLogMax;
 
   QuizLog? newLog;
 
   ///状態初期化
-  void init() {
+  Future<void> init() async {
+    await quizManager.loadQuizData();
+    gradeHistories = quizManager.gradeHistoriesInit();
     _setNext();
+    if (quizLogs.elementAt(0).mondai == '') {
+      logger.e('just blank');
+    }
+    ;
+    logger.i({quizLogs.elementAt(0).mondai});
+    logger.i({quizLogs.elementAt(0).options});
   }
 
   ///User回答後、正誤処理のち更新
@@ -40,36 +53,33 @@ class QuizState extends ChangeNotifier {
   ///更新、id,QA,Opts,Kaisetu,Log
   void _setNext() async {
     await TextSpeaker.stop();
-/*    logger.i("Logger 動作確認：情報ログ");
-    logger.d("Logger 動作確認：デバッグログ");
-    logger.w("Logger 動作確認：警告ログ");
-    logger.e("Logger 動作確認：エラーログ");*/
-    id = _quiz.getNextMondaiIndex();
-    mondai = _quiz.getNextMondai();
-    options = _quiz.getNextOptions();
-    kaisetu = _quiz.getNextKaisetu();
+    var randIndex = random.nextInt(fullQuiz.length);
+    final randQuiz = fullQuiz[randIndex];
 
-    newLog = _makeLog(id, mondai, options, kaisetu);
+    id = randIndex;
+    question = randQuiz.question;
+    options = List<String>.from(randQuiz.options);
+    explanation = randQuiz.explanation;
+
+    options.shuffle();
+
+    newLog = _makeLog(id, question, options, explanation);
     _enqQuizLog(newLog!);
 
-    debugPrint(id.toString());
-    debugPrint(mondai);
-    debugPrint(options.toString());
-    debugPrint(newLog.toString());
-
-    gradeHistories = _quiz.gradeHistoryToStr();
-    _quiz.increment();
+    gradeHistoriesStr = quizManager.gradeHistoryToStr(gradeHistories);
     notifyListeners();
 
-    await _speakStrings(["question$id", toReadableText(mondai), ...options]);
+    await _speakStrings(
+        ["question${id + 1}", toReadableText(question), ...options]);
   }
 
-  ///正誤判定、ライフ管理、履歴管理、make(データとして生成)->enq(Logに不完全newLogを追加)->(出題・回答)->add()
-  ///つくりとしては、未完成のLogが問題+選択肢カードを兼ねているということ、念のためLogは終始、正解選択肢を保持しない
-  ///回答int
-  ///なし、lifeCount, quizLog,gradeHistory状態書き換え
+  ///多数のパラメータ制御
+  ///引数：回答
+  ///なし
   void _sendUserIndex(int userAns) {
-    var seikai = _quiz.isCorrect(userAns, mondai, options);
+    logger.i('sendUserIndex called');
+    logger.i(options);
+    var seikai = quizManager.isCorrect(id, userAns, options);
     if (!seikai && lifeCount > 0) {
       lifeCount--;
     }
@@ -77,12 +87,12 @@ class QuizState extends ChangeNotifier {
       _addQuizLog(userAns, seikai);
     }
 
-    _quiz.gradeHistoryUpdate(mondai, seikai);
+    quizManager.gradeHistoryUpdate(id, seikai, gradeHistories);
   }
 
-  ///データとしてLog型生成(Queueに追加前=画面表示前)
-  ///id,問題、選択肢、解説(正答はLog自体に入れない)
-  ///なし、すでに出来ている問題を、State自身の保持内容から取り込む
+  ///データとしてLog型生成
+  ///引数：id,問題、選択肢、解説
+  ///返り値：なし
   QuizLog _makeLog(
       int id, String mondai, List<String> options, String kaisetu) {
     return QuizLog(
@@ -95,7 +105,7 @@ class QuizState extends ChangeNotifier {
     );
   }
 
-  ///quizLogにここでenqueue(=ここで画面に問題が映る)
+  ///quizLogにここでenqueue
   ///なし
   ///なし
   void _enqQuizLog(QuizLog newLog) {
@@ -105,17 +115,17 @@ class QuizState extends ChangeNotifier {
     quizLogs.addFirst(newLog);
   }
 
-  ///元newLog(=現時点での問題quizLog)に回答情報を追加
-  ///ユーザー回答int、正誤判定bool
-  ///なし、quizLog.first状態書き換え
+  ///最新quizLogに回答情報を追加
+  ///引数：ユーザー回答&正誤判定
+  ///返り値なし
   void _addQuizLog(int userAns, bool seikai) {
     quizLogs.first.userAns = userAns;
     quizLogs.first.seikai = seikai;
   }
 
-  ///音声関連、非同期処理を含む、おもに読み上げテキストへの事前処理を行う
-  ///読み上げ内容List<String>
-  ///なし
+  ///テキスト事前処理
+  ///引数：読み上げ内容
+  ///返り値：なし
   Future<void> _speakStrings(List<String> texts) async {
     final sessionId = UniqueKey().toString();
     await TextSpeaker.stop();

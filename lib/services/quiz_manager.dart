@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'dart:collection';
 import 'package:mini_quiz/models/quiz_item.dart';
-import 'package:mini_quiz/providers/quiz_state1.dart';
+import 'package:mini_quiz/providers/quiz_state.dart';
 
 class QuizManager {
   List<QuizItem> items = [];

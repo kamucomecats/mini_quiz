@@ -1,12 +1,102 @@
 [
   {
-    "question": "The company is looking for a candidate with strong ___ skills.",
-    "options": ["organization", "organize", "organized", "organizing"],
-    "explanation": "名詞の “skills” を修飾するには “organization” が適切。"
+    "question": "(...) Effect に関連する空欄補充問題",
+    "options": ["effect", "effective", "effectively", "effectiveness"],
+    "explanation": "名詞として 'have' の目的語になるのは 'effectiveness'。"
   },
   {
-    "question": "We need to finish the report as ___ as possible.",
-    "options": ["quickly", "quick", "quickest", "quickness"],
-    "explanation": "“as ___ as” 構文では副詞が必要。“quickly” が正解。"
+    "question": "(...) Communicate に関連する空欄補充問題",
+    "options": ["communicate", "communication", "communicative", "communicating"],
+    "explanation": "'communication skills' という名詞句を形成するため、名詞が必要。"
+  },
+  {
+    "question": "(...) Create に関連する空欄補充問題",
+    "options": ["creation", "creative", "creatively", "create"],
+    "explanation": "'creative ideas' は形容詞 + 名詞の組み合わせ。"
+  },
+  {
+    "question": "(...) Respond に関連する空欄補充問題",
+    "options": ["respond", "response", "responsive", "responsively"],
+    "explanation": "'a quick ___' には名詞 'response' が適切。"
+  },
+  {
+    "question": "(...) Decide に関連する空欄補充問題",
+    "options": ["decision", "decide", "decisive", "deciding"],
+    "explanation": "'make a ___' の形には名詞 'decision' が必要。"
+  },
+  {
+    "question": "(...) Analyze に関連する空欄補充問題",
+    "options": ["analyze", "analysis", "analytical", "analyzing"],
+    "explanation": "'conduct an ___' では名詞 'analysis' が必要。"
+  },
+  {
+    "question": "(...) Inform に関連する空欄補充問題",
+    "options": ["information", "informative", "inform", "informing"],
+    "explanation": "'information' は名詞で、'some' に続く語として適切。"
+  },
+  {
+    "question": "(...) Product に関連する空欄補充問題",
+    "options": ["production", "productive", "productively", "produce"],
+    "explanation": "'during ___' には名詞 'production' が適切。"
+  },
+  {
+    "question": "(...) Manage に関連する空欄補充問題",
+    "options": ["management", "manage", "manager", "manageable"],
+    "explanation": "名詞 'management' が 'department of ___' に適する。"
+  },
+  {
+    "question": "(...) Perform に関連する空欄補充問題",
+    "options": ["performance", "perform", "performer", "performing"],
+    "explanation": "'excellent ___' の形には名詞が必要。"
+  },
+  {
+    "question": "(...) Apply に関連する空欄補充問題",
+    "options": ["applicant", "application", "apply", "applying"],
+    "explanation": "'submit an ___' は名詞 'application' を取る。"
+  },
+  {
+    "question": "(...) Prefer に関連する空欄補充問題",
+    "options": ["prefer", "preference", "preferable", "preferably"],
+    "explanation": "'indicate your ___' は名詞の 'preference'。"
+  },
+  {
+    "question": "(...) Approve に関連する空欄補充問題",
+    "options": ["approval", "approve", "approving", "approvable"],
+    "explanation": "'awaiting ___' の 'awaiting' は名詞を目的語に取る。"
+  },
+  {
+    "question": "(...) Advertise に関連する空欄補充問題",
+    "options": ["advertising", "advertisement", "advertise", "advertiser"],
+    "explanation": "'place an ___' には名詞が必要。"
+  },
+  {
+    "question": "(...) Conclude に関連する空欄補充問題",
+    "options": ["conclusion", "conclusive", "conclude", "concluded"],
+    "explanation": "'in ___' は名詞句の一部。"
+  },
+  {
+    "question": "(...) Assign に関連する空欄補充問題",
+    "options": ["assignment", "assign", "assigned", "assigning"],
+    "explanation": "'complete the ___' には名詞が適切。"
+  },
+  {
+    "question": "(...) Compete に関連する空欄補充問題",
+    "options": ["competition", "compete", "competitive", "competitively"],
+    "explanation": "'join the ___' の空欄には名詞が必要。"
+  },
+  {
+    "question": "(...) Arrange に関連する空欄補充問題",
+    "options": ["arrangement", "arranged", "arrange", "arranging"],
+    "explanation": "'make an ___' は定型表現。"
+  },
+  {
+    "question": "(...) Present に関連する空欄補充問題",
+    "options": ["presentation", "present", "presented", "presenting"],
+    "explanation": "'give a ___' の形で名詞が必要。"
+  },
+  {
+    "question": "(...) Employ に関連する空欄補充問題",
+    "options": ["employment", "employee", "employer", "employing"],
+    "explanation": "'seek ___' は名詞句で、名詞が必要。"
   }
 ]

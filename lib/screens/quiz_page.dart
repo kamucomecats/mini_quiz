@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_quiz/providers/quiz_state1.dart';
+import 'package:mini_quiz/providers/quiz_state.dart';
 import 'package:mini_quiz/widgets/question_card.dart';
 import 'package:mini_quiz/widgets/option_button.dart';
 import 'package:mini_quiz/widgets/life_gauge.dart';

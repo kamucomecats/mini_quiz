@@ -2,7 +2,7 @@
 //Navigator ＋ Routeなどの形に書き換える可能性あり
 
 import 'package:flutter/material.dart';
-import 'package:mini_quiz/providers/quiz_state1.dart';
+import 'package:mini_quiz/providers/quiz_state.dart';
 import 'package:provider/provider.dart';
 import 'screens.dart';
 

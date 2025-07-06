@@ -36,12 +36,6 @@ class QuizState extends ChangeNotifier {
     await quizManager.loadQuizData();
     gradeHistories = quizManager.gradeHistoriesInit();
     _setNext();
-    if (quizLogs.elementAt(0).mondai == '') {
-      logger.e('just blank');
-    }
-
-    logger.i({quizLogs.elementAt(0).mondai});
-    logger.i({quizLogs.elementAt(0).options});
   }
 
   ///User回答後、正誤処理のち更新
@@ -77,8 +71,6 @@ class QuizState extends ChangeNotifier {
   ///引数：回答
   ///なし
   void _sendUserIndex(int userAns) {
-    logger.i('sendUserIndex called');
-    logger.i(options);
     var seikai = quizManager.isCorrect(id, userAns, options);
     if (!seikai && lifeCount > 0) {
       lifeCount--;

@@ -19,17 +19,14 @@ class QuizHisPage extends StatelessWidget {
 
     if (appState.gradeHistories.isEmpty) {
       return Center(
-        child: Text('BH is empty.'),
+        child: Text('GradeHistory is empty.'),
       );
     }
 
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-        ),
-        for (var i = 0; i < appState.gradeHistories.length; i++)
-          Card(
+    return ListView.builder(
+        itemCount: appState.gradeHistories.length,
+        itemBuilder: (context, index) {
+          return Card(
             color: theme.colorScheme.primary,
             child: ListTile(
                 title: Row(
@@ -37,7 +34,7 @@ class QuizHisPage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.fullQuiz[i].question,
+                    appState.fullQuiz[index].question,
                     style: style,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -46,15 +43,14 @@ class QuizHisPage extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: Text(
-                    appState.gradeHistoriesStr[i],
+                    appState.gradeHistoriesStr[index],
                     style: style,
                     overflow: TextOverflow.ellipsis,
                   ),
                 )
               ],
             )),
-          ),
-      ],
-    );
+          );
+        });
   }
 }

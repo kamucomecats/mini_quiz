@@ -67,14 +67,13 @@ class QuizManager {
     List<String> gradeHistoryStrs = [];
     for (int i = 0; i < items.length; i++) {
       String gradeHistoryStr = '';
-      for (int j = 0; j < gradeHistories[i].length; j++) {
-        final value = gradeHistories[i].elementAt(j);
-        if (gradeHistories[i].elementAt(j)) {
-          gradeHistoryStr += value ? '✅' : '❌';
+      for (int j = 0; j < gradeHistoryMax; j++) {
+        if (j >= gradeHistories[i].length) {
+          gradeHistoryStr += '⬛';
+          continue;
         }
-      }
-      for (int j = 0; j < gradeHistoryMax - gradeHistories[i].length; j++) {
-        gradeHistoryStr += '⬛';
+        final value = gradeHistories[i].elementAt(j);
+        gradeHistoryStr += value ? '✅' : '❌';
       }
       gradeHistoryStrs.add(gradeHistoryStr);
     }

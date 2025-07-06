@@ -39,7 +39,7 @@ class QuizState extends ChangeNotifier {
     if (quizLogs.elementAt(0).mondai == '') {
       logger.e('just blank');
     }
-    ;
+
     logger.i({quizLogs.elementAt(0).mondai});
     logger.i({quizLogs.elementAt(0).options});
   }

@@ -1,102 +1,202 @@
 [
   {
-    "question": "(...) Effect に関連する空欄補充問題",
-    "options": ["effect", "effective", "effectively", "effectiveness"],
-    "explanation": "名詞として 'have' の目的語になるのは 'effectiveness'。"
+    "question": "The new marketing campaign was highly ___ in increasing brand awareness.",
+    "options": [
+      "successful",
+      "success",
+      "succeed",
+      "successfully"
+    ],
+    "explanation": "be動詞 'was' の後ろにあり、主語 'The new marketing campaign' の状態を説明する補語(C)が必要なため、形容詞の 'successful' (成功した) が正解です。(B)は名詞、(C)は動詞、(D)は副詞です。"
   },
   {
-    "question": "(...) Communicate に関連する空欄補充問題",
-    "options": ["communicate", "communication", "communicative", "communicating"],
-    "explanation": "'communication skills' という名詞句を形成するため、名詞が必要。"
+    "question": "All employees are expected to handle confidential documents ___.",
+    "options": [
+      "carefully",
+      "careful",
+      "care",
+      "caring"
+    ],
+    "explanation": "動詞句 'handle confidential documents' (機密文書を取り扱う) 全体を修飾するため、副詞の 'carefully' (注意深く) が正解です。(B)は形容詞、(C)は名詞・動詞です。"
   },
   {
-    "question": "(...) Create に関連する空欄補充問題",
-    "options": ["creation", "creative", "creatively", "create"],
-    "explanation": "'creative ideas' は形容詞 + 名詞の組み合わせ。"
+    "question": "Upon ___ of the project, the team will receive a bonus.",
+    "options": [
+      "completion",
+      "complete",
+      "completely",
+      "completes"
+    ],
+    "explanation": "前置詞 'Upon' の目的語となる名詞が必要です。'completion' (完了) が文法的に正しく、「プロジェクトの完了次第」という意味になります。(B)は動詞・形容詞、(C)は副詞です。"
   },
   {
-    "question": "(...) Respond に関連する空欄補充問題",
-    "options": ["respond", "response", "responsive", "responsively"],
-    "explanation": "'a quick ___' には名詞 'response' が適切。"
+    "question": "Ms. Evans is directly ___ for overseeing the entire production process.",
+    "options": [
+      "responsible",
+      "responsibility",
+      "responsibly",
+      "respond"
+    ],
+    "explanation": "be動詞 'is' の補語となり、前置詞 'for' に続く形をとるのは形容詞です。'responsible for ~' (~に責任がある) という頻出表現であり、'responsible' が正解です。(B)は名詞、(C)は副詞、(D)は動詞です。"
   },
   {
-    "question": "(...) Decide に関連する空欄補充問題",
-    "options": ["decision", "decide", "decisive", "deciding"],
-    "explanation": "'make a ___' の形には名詞 'decision' が必要。"
+    "question": "A thorough ___ of the market trends is necessary before launching a new product.",
+    "options": [
+      "analysis",
+      "analyze",
+      "analytical",
+      "analytically"
+    ],
+    "explanation": "冠詞 'A' と形容詞 'thorough' の後ろにあり、文の主語となる名詞が必要です。'analysis' (分析) が正解です。(B)は動詞、(C)は形容詞、(D)は副詞です。"
   },
   {
-    "question": "(...) Analyze に関連する空欄補充問題",
-    "options": ["analyze", "analysis", "analytical", "analyzing"],
-    "explanation": "'conduct an ___' では名詞 'analysis' が必要。"
+    "question": "The new software is ___ user-friendly, even for beginners.",
+    "options": [
+      "extremely",
+      "extreme",
+      "extremity",
+      "extremist"
+    ],
+    "explanation": "形容詞 'user-friendly' (使いやすい) を修飾するため、副詞の 'extremely' (非常に、極めて) が正解です。(B)は形容詞、(C)(D)は名詞です。"
   },
   {
-    "question": "(...) Inform に関連する空欄補充問題",
-    "options": ["information", "informative", "inform", "informing"],
-    "explanation": "'information' は名詞で、'some' に続く語として適切。"
+    "question": "Only authorized personnel can ___ the secure data center.",
+    "options": [
+      "access",
+      "accessible",
+      "accessibility",
+      "accession"
+    ],
+    "explanation": "助動詞 'can' の後ろには動詞の原形が続きます。'access' (～にアクセスする、～に入る) が動詞として適切です。この文脈では 'access' は他動詞です。(B)は形容詞、(C)(D)は名詞です。"
   },
   {
-    "question": "(...) Product に関連する空欄補充問題",
-    "options": ["production", "productive", "productively", "produce"],
-    "explanation": "'during ___' には名詞 'production' が適切。"
+    "question": "Our company values ___ with international partners to expand our business.",
+    "options": [
+      "collaboration",
+      "collaborate",
+      "collaborative",
+      "collaboratively"
+    ],
+    "explanation": "動詞 'values' (～を重んじる) の目的語となる名詞が必要です。'collaboration' (協業、協力) が正解です。(B)は動詞、(C)は形容詞、(D)は副詞です。"
   },
   {
-    "question": "(...) Manage に関連する空欄補充問題",
-    "options": ["management", "manage", "manager", "manageable"],
-    "explanation": "名詞 'management' が 'department of ___' に適する。"
+    "question": "The manager made a few ___ adjustments to the work schedule.",
+    "options": [
+      "minor",
+      "minority",
+      "minimally",
+      "mine"
+    ],
+    "explanation": "名詞 'adjustments' (調整) を修飾するため、形容詞が必要です。'minor' (わずかな、重要でない) が意味的にも文法的にも正解です。(B)は名詞、(C)は副詞、(D)は代名詞です。"
   },
   {
-    "question": "(...) Perform に関連する空欄補充問題",
-    "options": ["performance", "perform", "performer", "performing"],
-    "explanation": "'excellent ___' の形には名詞が必要。"
+    "question": "To remain competitive, we must constantly ___ our services.",
+    "options": [
+      "innovate",
+      "innovative",
+      "innovation",
+      "innovator"
+    ],
+    "explanation": "助動詞 'must' の後ろには動詞の原形が来るため、'innovate' (革新する) が正解です。(B)は形容詞、(C)(D)は名詞です。"
   },
   {
-    "question": "(...) Apply に関連する空欄補充問題",
-    "options": ["applicant", "application", "apply", "applying"],
-    "explanation": "'submit an ___' は名詞 'application' を取る。"
+    "question": "We have received ___ feedback from customers regarding our new mobile app.",
+    "options": [
+      "positive",
+      "positively",
+      "position",
+      "positivity"
+    ],
+    "explanation": "名詞 'feedback' (フィードバック) を修飾する役割なので、形容詞の 'positive' (肯定的な) が正解です。(B)は副詞、(C)(D)は名詞です。"
   },
   {
-    "question": "(...) Prefer に関連する空欄補充問題",
-    "options": ["prefer", "preference", "preferable", "preferably"],
-    "explanation": "'indicate your ___' は名詞の 'preference'。"
+    "question": "The keynote speaker delivered a very ___ presentation.",
+    "options": [
+      "informative",
+      "information",
+      "inform",
+      "informant"
+    ],
+    "explanation": "冠詞 'a' と副詞 'very' の後ろにあり、名詞 'presentation' を修飾するため、形容詞の 'informative' (有益な、情報に富んだ) が正解です。(B)は名詞、(C)は動詞、(D)は名詞です。"
   },
   {
-    "question": "(...) Approve に関連する空欄補充問題",
-    "options": ["approval", "approve", "approving", "approvable"],
-    "explanation": "'awaiting ___' の 'awaiting' は名詞を目的語に取る。"
+    "question": "The ___ of the new safety regulations will begin next month.",
+    "options": [
+      "implementation",
+      "implement",
+      "implementing",
+      "implements"
+    ],
+    "explanation": "冠詞 'The' の後ろにあり、前置詞句 'of the new safety regulations' に修飾される名詞が必要です。'implementation' (実施、施行) が正解です。(B)は動詞、(C)は動名詞、(D)は動詞の三人称単数現在形または名詞の複数形です。"
   },
   {
-    "question": "(...) Advertise に関連する空欄補充問題",
-    "options": ["advertising", "advertisement", "advertise", "advertiser"],
-    "explanation": "'place an ___' には名詞が必要。"
+    "question": "The CEO spoke ___ about the company's future plans.",
+    "options": [
+      "optimistically",
+      "optimistic",
+      "optimism",
+      "optimize"
+    ],
+    "explanation": "動詞 'spoke' (話した) を修飾するため、副詞の 'optimistically' (楽観的に) が正解です。(B)は形容詞、(C)は名詞、(D)は動詞です。"
   },
   {
-    "question": "(...) Conclude に関連する空欄補充問題",
-    "options": ["conclusion", "conclusive", "conclude", "concluded"],
-    "explanation": "'in ___' は名詞句の一部。"
+    "question": "Please submit your travel expenses for ___ by the end of the week.",
+    "options": [
+      "reimbursement",
+      "reimburse",
+      "reimbursable",
+      "reimbursed"
+    ],
+    "explanation": "前置詞 'for' の目的語となる名詞が必要です。'reimbursement' (払い戻し、精算) が正解です。(B)は動詞、(C)は形容詞、(D)は過去形・過去分詞です。"
   },
   {
-    "question": "(...) Assign に関連する空欄補充問題",
-    "options": ["assignment", "assign", "assigned", "assigning"],
-    "explanation": "'complete the ___' には名詞が適切。"
+    "question": "The ___ of the new branch has attracted many local customers.",
+    "options": [
+      "opening",
+      "open",
+      "openly",
+      "opened"
+    ],
+    "explanation": "冠詞 'The' の後ろにあり、文の主語となる名詞が必要です。ここでは動名詞が名詞として使われており、'opening' (開店) が正解となります。(B)は動詞・形容詞、(C)は副詞です。"
   },
   {
-    "question": "(...) Compete に関連する空欄補充問題",
-    "options": ["competition", "compete", "competitive", "competitively"],
-    "explanation": "'join the ___' の空欄には名詞が必要。"
+    "question": "It is ___ that all employees attend the mandatory safety training.",
+    "options": [
+      "essential",
+      "essentially",
+      "essence",
+      "essentials"
+    ],
+    "explanation": "It is ___ that SV... の構文では、形式主語 It を受ける補語として形容詞が入ります。'essential' (不可欠な、極めて重要な) が正解です。(B)は副詞、(C)(D)は名詞です。"
   },
   {
-    "question": "(...) Arrange に関連する空欄補充問題",
-    "options": ["arrangement", "arranged", "arrange", "arranging"],
-    "explanation": "'make an ___' は定型表現。"
+    "question": "Our customer service team is known for its ___ and professionalism.",
+    "options": [
+      "efficiency",
+      "efficient",
+      "efficiently",
+      "effect"
+    ],
+    "explanation": "所有格 'its' の後ろにあり、'and' によって 'professionalism' (名詞) と並列の関係にあるため、名詞が必要です。'efficiency' (効率性) が正解です。(B)は形容詞、(C)は副詞です。"
   },
   {
-    "question": "(...) Present に関連する空欄補充問題",
-    "options": ["presentation", "present", "presented", "presenting"],
-    "explanation": "'give a ___' の形で名詞が必要。"
+    "question": "The architect presented a ___ design for the new office building.",
+    "options": [
+      "creative",
+      "create",
+      "creation",
+      "creatively"
+    ],
+    "explanation": "冠詞 'a' と名詞 'design' の間にあり、名詞を修飾するため、形容詞の 'creative' (創造的な) が正解です。(B)は動詞、(C)は名詞、(D)は副詞です。"
   },
   {
-    "question": "(...) Employ に関連する空欄補充問題",
-    "options": ["employment", "employee", "employer", "employing"],
-    "explanation": "'seek ___' は名詞句で、名詞が必要。"
+    "question": "To improve workflow, the management decided to ___ the department.",
+    "options": [
+      "reorganize",
+      "reorganization",
+      "reorganized",
+      "reorganizing"
+    ],
+    "explanation": "不定詞を作る 'to' の後ろには動詞の原形が続きます。'reorganize' (～を再編成する) が正解です。(B)は名詞、(C)は過去形・過去分詞、(D)は現在分詞・動名詞です。"
   }
 ]

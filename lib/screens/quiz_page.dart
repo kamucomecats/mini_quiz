@@ -24,28 +24,17 @@ class QuizPage extends StatelessWidget {
               children: [
                 Expanded(
                     child: ListView.builder(
-                      reverse: true,
+                  reverse: true,
                   itemCount: appState.quizLogs.length,
                   itemBuilder: (context, index) {
-                    return Question(appState: appState, index: index,);
+                    return Question(
+                      appState: appState,
+                      index: index,
+                    );
                   },
                 )),
-                Option(
-                  appState: appState,
-                  index: 0,
-                ),
-                Option(
-                  appState: appState,
-                  index: 1,
-                ),
-                Option(
-                  appState: appState,
-                  index: 2,
-                ),
-                Option(
-                  appState: appState,
-                  index: 3,
-                ),
+                ...List.generate(
+                    4, (i) => Option(appState: appState, index: i)),
               ],
             ),
           ),

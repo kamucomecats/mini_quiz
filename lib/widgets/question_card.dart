@@ -80,7 +80,7 @@ class _Questionstate extends State<Question> {
                     width: 300,
                     height: 30,
                     child: Text(
-                      'No.${qLog.id}',
+                      'No.${qLog.id+1}',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
@@ -99,8 +99,10 @@ class _Questionstate extends State<Question> {
                           children: [
                             Text(
                               qLog.options[qLog.userAns!],
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 24, fontFamily: 'Noto Sans Japanese'),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontFamily: 'Noto Sans Japanese'),
                             ),
                           ],
                         )
@@ -108,7 +110,11 @@ class _Questionstate extends State<Question> {
                   if (_showExplain)
                     Text(
                       qLog.kaisetu,
-                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'NotoSans', fontWeight: FontWeight.w900),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontFamily: 'NotoSans',
+                          fontWeight: FontWeight.w900),
                     ),
                 ],
               )),

@@ -6,6 +6,13 @@ import 'package:mini_quiz/providers/quiz_state.dart';
 import 'package:provider/provider.dart';
 import 'screens.dart';
 
+enum HomePageTab{
+  home,
+  quiz,
+  history,
+  note,
+}
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   @override
@@ -13,34 +20,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var selectedIndex = 1;
+  var selectedTab = HomePageTab.quiz;
 
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<QuizState>();
 
     Widget page;
-    switch (selectedIndex) {
-      case 0:
+    switch (selectedTab) {
+      case HomePageTab.home:
         page = Placeholder();
         break;
-      case 1:
+      case HomePageTab.quiz:
         page = QuizPage(
           appState: appState,
         );
         break;
-      case 2:
+      case HomePageTab.history:
         page = QuizHisPage(
           appState: appState,
         );
         break;
-      case 3:
+      case HomePageTab.note:
         page = NotePage(
           appState: appState,
         );
         break;
       default:
-        throw UnimplementedError('no widget for $selectedIndex');
+        throw UnimplementedError('no widget for $selectedTab');
     }
 
     return Scaffold(
@@ -66,10 +73,10 @@ class _HomePageState extends State<HomePage> {
                   label: Text('Note'),
                 ),
               ],
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (value) {
+              selectedIndex: selectedTab.index,
+              onDestinationSelected: (index) {
                 setState(() {
-                  selectedIndex = value;
+                  selectedTab = HomePageTab.values[index];
                 });
               },
             ),

@@ -6,7 +6,7 @@ import 'package:mini_quiz/providers/quiz_state.dart';
 import 'package:provider/provider.dart';
 import 'screens.dart';
 
-enum HomePageTab{
+enum HomePageTab {
   home,
   quiz,
   history,
@@ -25,6 +25,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<QuizState>();
+
+    //データロード中に見せる画面
+    if (appState.isLoading) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     Widget page;
     switch (selectedTab) {
@@ -49,6 +58,8 @@ class _HomePageState extends State<HomePage> {
       default:
         throw UnimplementedError('no widget for $selectedTab');
     }
+
+    //データが読み込み中は簡易的なロード画面を見せる
 
     return Scaffold(
       body: Row(

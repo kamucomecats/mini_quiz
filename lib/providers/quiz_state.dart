@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mini_quiz/models/quiz_item.dart';
 import 'package:mini_quiz/models/quiz_log.dart';
@@ -12,6 +14,10 @@ final logger = Logger();
 ///状態管理を担う(QA, Opts, Ans, User, Life)
 ///読み上げを担う
 class QuizState extends ChangeNotifier {
+  //ロード画面表示用
+  bool _isLoading = true;
+  bool get isLoading => _isLoading;
+
   //Managerの引き出し
   final quizManager = QuizManager();
   final random = Random();
@@ -35,17 +41,23 @@ class QuizState extends ChangeNotifier {
   Future<void> init() async {
     await quizManager.loadQuizData();
     gradeHistories = quizManager.gradeHistoriesInit();
-    _setNext();
+    await _setNext();
+    _isLoading = false;
+    notifyListeners();
+    await _speakStrings(
+        ["question${id + 1}", toReadableText(question), ...options]);
   }
 
   ///User回答後、正誤処理のち更新
   void answer(int index) {
     _sendUserIndex(index);
     _setNext();
+    unawaited(_speakStrings(
+        ["question${id + 1}", toReadableText(question), ...options]));
   }
 
   ///更新、id,QA,Opts,Kaisetu,Log
-  void _setNext() async {
+  Future<void> _setNext() async {
     await TextSpeaker.stop();
     var randIndex = random.nextInt(fullQuiz.length);
     final randQuiz = fullQuiz[randIndex];
@@ -62,9 +74,6 @@ class QuizState extends ChangeNotifier {
 
     gradeHistoriesStr = quizManager.gradeHistoryToStr(gradeHistories);
     notifyListeners();
-
-    await _speakStrings(
-        ["question${id + 1}", toReadableText(question), ...options]);
   }
 
   ///多数のパラメータ制御

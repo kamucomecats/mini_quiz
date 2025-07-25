@@ -93,20 +93,17 @@ class _Questionstate extends State<Question> {
                     maxFontSize: style.fontSize ?? 30,
                     minFontSize: 24,
                   ),
-                  qLog.seikai != null
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              qLog.options[qLog.userAns!],
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontFamily: 'Noto Sans Japanese'),
-                            ),
-                          ],
-                        )
-                      : SizedBox.shrink(),
+                  if(qLog.seikai != null)
+                      Align(
+                        child: Text(
+                          'あなた：${qLog.options[qLog.userAns!]}',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontFamily: 'Noto Sans Japanese'),
+                        ),
+                      ),
                   if (_showExplain)
                     Text(
                       qLog.kaisetu,

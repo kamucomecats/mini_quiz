@@ -25,27 +25,19 @@ class NotePage extends StatelessWidget {
           return Card(
             color: theme.colorScheme.primary,
             child: ListTile(
-                title: Row(
-              children: [
-                SizedBox(
-                  width: 130,
-                  child: Text(
-                    appState.fullQuiz[index].question,
-                    style: TextStyle(fontSize: 30, color: Colors.white),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Spacer(),
-                SizedBox(
-                  width: 130,
-                  child: Text(
+                title:Text(
                     appState.gradeHistoriesStr[index],
                     style: TextStyle(fontSize: 20, color: Colors.white),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
-                )
-              ],
-            )),
+                subtitle:Text(
+                    appState.fullQuiz[index].question,
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
           );
         });
   }

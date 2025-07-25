@@ -52,9 +52,7 @@ class QuizState extends ChangeNotifier {
   void answer(int index) {
     _sendUserIndex(index);
     _setNext();
-    unawaited(_speakStrings(
-        ["question${id + 1}", toReadableText(question), ...options]));
-  }
+    }
 
   ///更新、id,QA,Opts,Kaisetu,Log
   Future<void> _setNext() async {
@@ -68,12 +66,14 @@ class QuizState extends ChangeNotifier {
     explanation = randQuiz.explanation;
 
     options.shuffle();
-
+    
     newLog = _makeLog(id, question, options, explanation);
     _enqQuizLog(newLog!);
 
     gradeHistoriesStr = quizManager.gradeHistoryToStr(gradeHistories);
     notifyListeners();
+    await _speakStrings(
+        ["question${id + 1}", toReadableText(question), ...options]);
   }
 
   ///多数のパラメータ制御

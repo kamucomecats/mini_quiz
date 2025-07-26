@@ -49,9 +49,11 @@ class QuizState extends ChangeNotifier {
   }
 
   ///User回答後、正誤処理のち更新
-  void answer(int index) {
+  Future<void> answer(int index) async{
     _sendUserIndex(index);
-    _setNext();
+    await _setNext(); 
+    await _speakStrings(
+        ["question${id + 1}", toReadableText(question), ...options]);
     }
 
   ///更新、id,QA,Opts,Kaisetu,Log
@@ -72,8 +74,6 @@ class QuizState extends ChangeNotifier {
 
     gradeHistoriesStr = quizManager.gradeHistoryToStr(gradeHistories);
     notifyListeners();
-    await _speakStrings(
-        ["question${id + 1}", toReadableText(question), ...options]);
   }
 
   ///多数のパラメータ制御

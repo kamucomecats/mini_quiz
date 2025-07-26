@@ -68,59 +68,61 @@ class _Questionstate extends State<Question> {
     }
 
     return InkWell(
-      onTap: qLog.seikai != null ? _toggleExplain : null,
+      onTap: () {
+        if (qLog.seikai != null) { //もし回答済みなら
+          _toggleExplain(); //説明見せる
+        } else {
+          TextSpeaker.speakOneShot(qLog.mondai); //音声再生
+        }
+      },
       child: SizedBox(
         width: 300,
-        child: GestureDetector(
-          onTap: () {
-            TextSpeaker.speakOneShot(qLog.mondai);
-          },
-          child: Card(
-            color: cardColor,
-            child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 300,
-                      height: 30,
+        child: Card(
+          color: cardColor,
+          child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 300,
+                    height: 30,
+                    child: Text(
+                      'No.${qLog.id + 1}',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  ResponsiveText(
+                    text: qLog.mondai,
+                    baseStyle: style,
+                    maxFontSize: style.fontSize ?? 30,
+                    minFontSize: 24,
+                  ),
+                  if (qLog.seikai != null)
+                    Align(
+                      alignment: Alignment.centerRight,
                       child: Text(
-                        'No.${qLog.id + 1}',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    ResponsiveText(
-                      text: qLog.mondai,
-                      baseStyle: style,
-                      maxFontSize: style.fontSize ?? 30,
-                      minFontSize: 24,
-                    ),
-                    if (qLog.seikai != null)
-                      Align(
-                        child: Text(
-                          'あなた：${qLog.options[qLog.userAns!]}',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: 'Noto Sans Japanese'),
-                        ),
-                      ),
-                    if (_showExplain)
-                      Text(
-                        qLog.kaisetu,
+                        'あなた：${qLog.options[qLog.userAns!]}',
+                        textAlign: TextAlign.right,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
-                            fontFamily: 'NotoSans',
-                            fontWeight: FontWeight.w900),
+                            fontFamily: 'Noto Sans Japanese'),
                       ),
-                  ],
-                )),
-          ),
+                    ),
+                  if (_showExplain)
+                    Text(
+                      qLog.kaisetu,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontFamily: 'NotoSans',
+                          fontWeight: FontWeight.w900),
+                    ),
+                ],
+              )),
         ),
       ),
     );

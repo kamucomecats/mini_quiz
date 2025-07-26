@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_quiz/providers/quiz_state.dart';
+import 'package:mini_quiz/util/text_speaker.dart';
 import 'responsive_text.dart';
 
 class Question extends StatefulWidget {
@@ -70,30 +71,34 @@ class _Questionstate extends State<Question> {
       onTap: qLog.seikai != null ? _toggleExplain : null,
       child: SizedBox(
         width: 300,
-        child: Card(
-          color: cardColor,
-          child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 300,
-                    height: 30,
-                    child: Text(
-                      'No.${qLog.id+1}',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
+        child: GestureDetector(
+          onTap: () {
+            TextSpeaker.speakOneShot(qLog.mondai);
+          },
+          child: Card(
+            color: cardColor,
+            child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      height: 30,
+                      child: Text(
+                        'No.${qLog.id + 1}',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  ResponsiveText(
-                    text: qLog.mondai,
-                    baseStyle: style,
-                    maxFontSize: style.fontSize ?? 30,
-                    minFontSize: 24,
-                  ),
-                  if(qLog.seikai != null)
+                    ResponsiveText(
+                      text: qLog.mondai,
+                      baseStyle: style,
+                      maxFontSize: style.fontSize ?? 30,
+                      minFontSize: 24,
+                    ),
+                    if (qLog.seikai != null)
                       Align(
                         child: Text(
                           'あなた：${qLog.options[qLog.userAns!]}',
@@ -104,17 +109,18 @@ class _Questionstate extends State<Question> {
                               fontFamily: 'Noto Sans Japanese'),
                         ),
                       ),
-                  if (_showExplain)
-                    Text(
-                      qLog.kaisetu,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: 'NotoSans',
-                          fontWeight: FontWeight.w900),
-                    ),
-                ],
-              )),
+                    if (_showExplain)
+                      Text(
+                        qLog.kaisetu,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: 'NotoSans',
+                            fontWeight: FontWeight.w900),
+                      ),
+                  ],
+                )),
+          ),
         ),
       ),
     );

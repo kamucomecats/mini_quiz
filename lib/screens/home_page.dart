@@ -11,6 +11,7 @@ enum HomePageTab {
   quiz,
   history,
   note,
+  pickup,
 }
 
 class HomePage extends StatefulWidget {
@@ -55,6 +56,11 @@ class _HomePageState extends State<HomePage> {
           appState: appState,
         );
         break;
+      case HomePageTab.pickup:
+        page = PickupPage(
+          appState: appState,
+        );
+        break;
       default:
         throw UnimplementedError('no widget for $selectedTab');
     }
@@ -82,6 +88,10 @@ class _HomePageState extends State<HomePage> {
                 NavigationRailDestination(
                   icon: Icon(Icons.book),
                   label: Text('Note'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.push_pin),
+                  label: Text('Pickup'),
                 ),
               ],
               selectedIndex: selectedTab.index,

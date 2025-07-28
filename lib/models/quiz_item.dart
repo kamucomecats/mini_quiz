@@ -13,7 +13,7 @@ class QuizItem {
   final String explanation;
   final List<String> tags; //複数種のタグに対応
   late final String sourceFile;
-  final bool isSelected;
+  bool isSelected;
 
   QuizItem({
     required this.question,
@@ -56,4 +56,6 @@ class QuizItem {
       sourceFile: sourceFile ?? this.sourceFile,
     );
   }
+
+  void toggleIsSelected() => isSelected =! isSelected;
 }

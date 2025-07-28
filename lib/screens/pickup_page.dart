@@ -38,10 +38,10 @@ class _PickupPageState extends State<PickupPage>{
                 ),
               secondary: Icon(Icons.beach_access),
               controlAffinity: ListTileControlAffinity.leading,
-              value: _checked,
+              value: widget.appState.quizItems[widget.appState.fileName]![index].isSelected,
               onChanged: (bool? value) {
                 setState(() {
-                  _checked = value ?? false;
+                  widget.appState.quizItems[widget.appState.fileName]![index].toggleIsSelected();
                 });
               },
             ),

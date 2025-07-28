@@ -27,8 +27,10 @@ class QuizState extends ChangeNotifier {
   List<String> options = [];
   String explanation = '';
   int lifeCount = 200;
+  Map<String, List<QuizItem>> quizItems = {}; //ファイル名と問題セットのペア
 
-  List<QuizItem> get fullQuiz => quizManager.items;
+
+  String fileName = "quiz1.json"; //暫定的にファイル名を指定
   List<Queue<bool>> gradeHistories = [];
   List<String> gradeHistoriesStr = [];
   Queue<QuizLog> quizLogs = Queue();
@@ -39,7 +41,7 @@ class QuizState extends ChangeNotifier {
 
   ///状態初期化
   Future<void> init() async {
-    await quizManager.loadQuizData();
+    quizItems[fileName] = await quizManager.loadQuizData(fileName);
     gradeHistories = quizManager.gradeHistoriesInit();
     await _setNext();
     _isLoading = false;
@@ -49,18 +51,18 @@ class QuizState extends ChangeNotifier {
   }
 
   ///User回答後、正誤処理のち更新
-  Future<void> answer(int index) async{
+  Future<void> answer(int index) async {
     _sendUserIndex(index);
-    await _setNext(); 
+    await _setNext();
     await _speakStrings(
         ["question${id + 1}", toReadableText(question), ...options]);
-    }
+  }
 
   ///更新、id,QA,Opts,Kaisetu,Log
   Future<void> _setNext() async {
     await TextSpeaker.stop();
-    var randIndex = random.nextInt(fullQuiz.length);
-    final randQuiz = fullQuiz[randIndex];
+    var randIndex = random.nextInt(quizItems[fileName]!.length);
+    final randQuiz = quizItems[fileName]![randIndex];
 
     id = randIndex;
     question = randQuiz.question;
@@ -68,7 +70,7 @@ class QuizState extends ChangeNotifier {
     explanation = randQuiz.explanation;
 
     options.shuffle();
-    
+
     newLog = _makeLog(id, question, options, explanation);
     _enqQuizLog(newLog!);
 

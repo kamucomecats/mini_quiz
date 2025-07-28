@@ -6,23 +6,26 @@ import 'package:mini_quiz/models/quiz_item.dart';
 import 'package:mini_quiz/providers/quiz_state.dart';
 
 class QuizManager {
-  List<QuizItem> items = [];
+  List<QuizItem> jsonData = [];
   final random = Random();
 
-  Future<void> loadQuizData() async {
+  Future<List<QuizItem>> loadQuizData(String fileName) async {
     //jsonをStringとして取り込み
     final String jsonString =
-        await rootBundle.loadString('assets/quizzes/quiz1.json');
+        await rootBundle.loadString('assets/quizzes/$fileName');
 
     //そのStringをDartのListに変換
-    final List<dynamic> jsonList = json.decode(jsonString);
+    final List<dynamic> jsonData = json.decode(jsonString);
 
     //elementごとにfromJsonを掛け、各mapをQuizItemリスト化
-    items = jsonList.map((e) => QuizItem.fromJson(e)).toList();
+    return jsonData.map((e) {
+      final item = QuizItem.fromJson(e);
+      return item.copyWith(sourceFile: fileName);
+    }).toList();
     //logger.i(items[0].question);
   }
 
-  int get length => items.length;
+  int get length => jsonData.length;
 
   final gradeHistoryMax = 3;
   final quizLogMax = 10;
@@ -35,10 +38,10 @@ class QuizManager {
     var countPrevious = count - 1;
     if (countPrevious == -1) countPrevious = size - 1;
 
-    logger.i(items[id].options);
+    logger.i(jsonData[id].options);
     logger.i(optionsInQuiz);
     logger.i(userAns);
-    if (items[id].options[0] == optionsInQuiz[userAns]) {
+    if (jsonData[id].options[0] == optionsInQuiz[userAns]) {
       return true;
     }
     return false;
@@ -46,7 +49,7 @@ class QuizManager {
 
   //正誤履歴の初期化、全部の問題をboolの空queue(=未回答)で埋める
   List<Queue<bool>> gradeHistoriesInit() =>
-      List.generate(items.length, (_) => Queue<bool>());
+      List.generate(jsonData.length, (_) => Queue<bool>());
 
   ///履歴更新
   ///gradeHistory List<Queue<bool>>
@@ -65,7 +68,7 @@ class QuizManager {
   ///履歴
   List<String> gradeHistoryToStr(List<Queue<bool>> gradeHistories) {
     List<String> gradeHistoryStrs = [];
-    for (int i = 0; i < items.length; i++) {
+    for (int i = 0; i < jsonData.length; i++) {
       String gradeHistoryStr = '';
       for (int j = 0; j < gradeHistoryMax; j++) {
         if (j >= gradeHistories[i].length) {

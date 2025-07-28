@@ -32,7 +32,7 @@ class NotePage extends StatelessWidget {
                     maxLines: 1,
                   ),
                 subtitle:Text(
-                    appState.fullQuiz[index].question,
+                    appState.quizItems[appState.fileName]![index].question,
                     style: TextStyle(fontSize: 20, color: Colors.white),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,

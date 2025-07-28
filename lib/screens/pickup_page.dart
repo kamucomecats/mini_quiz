@@ -24,12 +24,12 @@ class _PickupPageState extends State<PickupPage>{
     final theme = Theme.of(context);
 
     return ListView.builder(
-        itemCount: widget.appState.fullQuiz.length,
+        itemCount: widget.appState.quizItems[widget.appState.fileName]!.length,
         itemBuilder: (context, index) {
           return Card(
             color: theme.colorScheme.primary,
             child: CheckboxListTile(
-              title: Text('${index+1}: ${widget.appState.fullQuiz[index].question}',
+              title: Text('${index+1}: ${widget.appState.quizItems[widget.appState.fileName]![index].question}',
               style: TextStyle(
                 fontSize: 15,
                 color: Colors.white,                
